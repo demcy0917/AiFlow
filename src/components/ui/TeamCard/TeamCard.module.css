@@ -1,0 +1,181 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-slow), border-color var(--transition-slow),
+    box-shadow var(--transition-slow);
+  isolation: isolate;
+}
+
+/* Color accents */
+.cyan    { --accent: var(--color-cyan);    --accent-glow: var(--color-cyan-glow);    }
+.purple  { --accent: var(--color-purple);  --accent-glow: var(--color-purple-glow);  }
+.blue    { --accent: var(--color-blue);    --accent-glow: var(--color-blue-glow);    }
+.magenta { --accent: var(--color-magenta); --accent-glow: var(--color-magenta-glow); }
+
+/* Animated glow border (hover) */
+.borderGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-purple), var(--color-magenta), var(--color-blue));
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(22, 38, 63, 0.14), 0 0 32px var(--accent-glow);
+}
+
+.card:hover .borderGlow {
+  opacity: 1;
+  animation: borderShift 4s linear infinite;
+}
+
+@keyframes borderShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Photo */
+.photoWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform var(--transition-slow);
+  filter: saturate(1.05);
+}
+
+.card:hover .photo {
+  transform: scale(1.05);
+}
+
+/* Fallback (initials) when no photo */
+.fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%),
+    linear-gradient(160deg, #f1f6f7, #e7eff1);
+}
+
+.fallbackInitials {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.9;
+}
+
+/* Overlay desactivado: la foto se muestra completa, sin degradado blanco */
+.photoOverlay {
+  display: none;
+}
+
+/* Badge over photo */
+.badge {
+  position: absolute;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  z-index: 2;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-transform: uppercase;
+}
+
+/* Info */
+.info {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-6) var(--space-6);
+  margin-top: -1px;
+  background: #ffffff;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--accent);
+}
+
+.role {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: var(--space-1);
+}
+
+/* Socials */
+.socials {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.socialLink {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+}
+
+.socialLink:hover {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}

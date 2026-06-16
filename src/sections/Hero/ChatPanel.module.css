@@ -1,0 +1,235 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  height: 460px;
+  box-shadow: 0 12px 40px rgba(22, 38, 63, 0.10);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-cyan-blue);
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.headerInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.online {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #16a34a;
+}
+
+.onlineDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+.menuDots {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+  cursor: default;
+}
+
+/* Messages */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  scroll-behavior: smooth;
+}
+
+.messages::-webkit-scrollbar { width: 3px; }
+.messages::-webkit-scrollbar-thumb { background: var(--color-cyan-dim); border-radius: 3px; }
+
+/* Message rows */
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  animation: fadeInUp 0.3s ease both;
+}
+
+.row.user  { flex-direction: row-reverse; }
+.row.bot   { flex-direction: row; }
+
+/* Avatars */
+.botAvatar,
+.userAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+
+.botAvatar {
+  background: var(--gradient-cyan-blue);
+  color: #fff;
+}
+
+.userAvatar {
+  background: var(--color-surface-3);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+/* Bubbles */
+.bubble {
+  max-width: 78%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bot .bubble {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: 3px;
+}
+
+.user .bubble {
+  background: var(--color-cyan-dim);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  border-bottom-right-radius: 3px;
+}
+
+.text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.time {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  align-self: flex-end;
+}
+
+/* Typing bubble */
+.typingBubble {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-3) var(--space-4) !important;
+  min-width: 52px;
+}
+
+.dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  opacity: 0.7;
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0);    opacity: 0.5; }
+  40%            { transform: translateY(-6px); opacity: 1;   }
+}
+
+/* Input bar */
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.inputPlaceholder {
+  flex: 1;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-primary);
+}
+
+.sendBtn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-cyan-blue);
+  border: none;
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  transition: transform var(--transition-spring);
+}
+
+.sendBtn:hover { transform: scale(1.1); }
+
+/* Desktop grande: mockup protagonista (tamaño equilibrado) */
+@media (min-width: 1280px) {
+  .panel {
+    height: 450px;
+  }
+}
+
+@media (max-width: 700px) {
+  .panel {
+    height: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    height: 320px;
+  }
+}

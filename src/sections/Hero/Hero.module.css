@@ -1,0 +1,236 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--navbar-height) + var(--space-12));
+  padding-bottom: var(--space-20);
+  overflow: hidden;
+}
+
+/* Background grid */
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(22, 38, 63, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 38, 63, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 20%, transparent 80%);
+}
+
+/* Glow blobs */
+.bgGlow1 {
+  position: absolute;
+  top: 5%;
+  left: -15%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.10) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.bgGlow2 {
+  position: absolute;
+  bottom: 0;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: var(--space-10);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Copy */
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  animation: heroSlideLeft 0.8s ease forwards;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-cyan-dim);
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+}
+
+.badgeDot {
+  width: 7px;
+  height: 7px;
+  background: var(--color-cyan);
+  border-radius: 50%;
+  animation: pulseDot 2s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--color-cyan);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, var(--font-size-5xl));
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.gradientWord {
+  background: var(--gradient-text);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+.subtitle {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.highlights {
+  display: flex;
+  gap: var(--space-5);
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.highlightItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.highlightIcon {
+  color: var(--color-cyan);
+  font-size: 10px;
+}
+
+/* Panels */
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: var(--space-4);
+  align-items: start;
+  animation: heroSlideRight 0.8s ease 0.2s both;
+}
+
+/* Hero-specific entrance animations (start visible, only move) */
+@keyframes heroSlideLeft {
+  from { transform: translateX(-28px); opacity: 0.6; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes heroSlideRight {
+  from { transform: translateX(28px);  opacity: 0.6; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+/* ── Desktop grande: Hero más compacto y mockups protagonistas ──
+   Solo aplica de 1280px hacia arriba; por debajo todo queda igual. */
+@media (min-width: 1280px) {
+  .hero {
+    /* Se quita el 100vh forzado para eliminar el hueco muerto
+       entre el navbar y el contenido, subiendo el bloque Hero. */
+    min-height: auto;
+    padding-top: calc(var(--navbar-height) + var(--space-6));
+    padding-bottom: var(--space-12);
+  }
+
+  .layout {
+    /* El layout es ancho fijo (1180px). El texto usa 41%: suficiente
+       para que los dos botones queden en línea, dejando el 59% al
+       bloque visual. */
+    grid-template-columns: 41% 1fr;
+    gap: var(--space-8);
+    /* Mismo ancho de contenido que el resto de las secciones. */
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  .panels {
+    /* Más peso al dashboard para que la fila de 4 KPIs quepa. */
+    grid-template-columns: 1fr 1.45fr;
+  }
+
+  /* Reducción ~15% del tamaño del Hero en PC para un look más equilibrado */
+  .heading {
+    font-size: clamp(2.4rem, 3.35vw, 4rem);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .panels {
+    max-width: 700px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: calc(var(--navbar-height) + var(--space-8));
+    padding-bottom: var(--space-12);
+  }
+
+  .heading {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-base);
+  }
+
+  .highlights {
+    gap: var(--space-3);
+  }
+}

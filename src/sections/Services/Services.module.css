@@ -1,0 +1,57 @@
+.section {
+  padding: var(--space-24) 0;
+  position: relative;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.4), transparent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-16);
+}
+
+.cardWrapper {
+  animation: fadeInUp 0.6s ease both;
+}
+
+/* Desktop grande: mismo ancho de contenido que las demás secciones. */
+@media (min-width: 1280px) {
+  .grid {
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-16) 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-12) 0;
+  }
+}

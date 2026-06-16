@@ -1,0 +1,74 @@
+.section {
+  padding: var(--space-24) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.35), transparent);
+}
+
+.bgGlow {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8);
+  margin-top: var(--space-16);
+  position: relative;
+  z-index: 1;
+}
+
+.cardWrapper {
+  animation: fadeInUp 0.6s ease both;
+}
+
+/* Desktop grande: se acota el ancho del grid para que las cards
+   no se vean tan grandes en pantallas amplias (~10-20% más pequeñas). */
+@media (min-width: 1280px) {
+  .grid {
+    max-width: 1240px;
+    margin-inline: auto;
+    gap: var(--space-6);
+  }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid {
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-16) 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-12) 0;
+  }
+}

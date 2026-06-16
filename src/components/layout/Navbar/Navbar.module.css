@@ -1,0 +1,207 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: background var(--transition-base), backdrop-filter var(--transition-base),
+    box-shadow var(--transition-base);
+  animation: slideInDown 0.6s ease forwards;
+}
+
+.header.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 4px 24px rgba(22, 38, 63, 0.08);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--navbar-height);
+  gap: var(--space-8);
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  font-size: 1.6rem;
+  color: var(--color-cyan);
+  filter: drop-shadow(0 0 8px var(--color-cyan));
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.logoAccent {
+  background: var(--gradient-cyan-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Nav links */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  list-style: none;
+}
+
+.navLink {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  position: relative;
+  padding: var(--space-1) 0;
+  transition: color var(--transition-base);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-cyan-blue);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Mobile CTA — hidden on desktop */
+.mobileCtaItem {
+  display: none;
+}
+
+/* Hamburger toggle */
+.menuToggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 28px;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menuToggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--color-text-primary);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-base);
+  transform-origin: center;
+}
+
+.menuToggle.menuOpen span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menuToggle.menuOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menuToggle.menuOpen span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .navLinks {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) var(--space-6) var(--space-8);
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform var(--transition-slow), opacity var(--transition-slow);
+    pointer-events: none;
+  }
+
+  .navLinks.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .navLink {
+    padding: var(--space-4) 0;
+    font-size: var(--font-size-md);
+    border-bottom: 1px solid var(--color-border);
+    width: 100%;
+  }
+
+  .navLink::after {
+    display: none;
+  }
+
+  .mobileCtaItem {
+    display: block;
+    padding-top: var(--space-6);
+    width: 100%;
+  }
+
+  .menuToggle {
+    display: flex;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hide desktop CTA button, show hamburger */
+  .actions > a,
+  .actions > button:not(.menuToggle) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    font-size: var(--font-size-lg);
+  }
+}

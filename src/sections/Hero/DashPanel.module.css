@@ -1,0 +1,307 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  height: 460px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(22, 38, 63, 0.10);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.headerIcon {
+  color: var(--color-cyan);
+  font-size: 0.85rem;
+}
+
+.headerTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.period {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  padding: 3px var(--space-3);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: default;
+}
+
+/* KPI grid */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.kpiCard {
+  padding: var(--space-3);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kpiLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpiValue {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.kpiDelta {
+  font-size: 10px;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.cyan    .kpiValue { color: var(--color-cyan);    }
+.blue    .kpiValue { color: var(--color-blue);    }
+.purple  .kpiValue { color: var(--color-purple);  }
+.magenta .kpiValue { color: var(--color-magenta); }
+
+/* Chart */
+.chartSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.chartLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 60px;
+}
+
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  height: 100%;
+}
+
+.bar {
+  width: 100%;
+  background: linear-gradient(to top, #14b8a6, #5eead4);
+  border-radius: 3px 3px 0 0;
+  opacity: 0.9;
+  animation: growUp 0.8s ease both;
+}
+
+@keyframes growUp {
+  from { height: 0 !important; opacity: 0; }
+}
+
+.dayLabel {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* Automation flow */
+.flowSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  flex: 1;
+  overflow: hidden;
+}
+
+.flowHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+}
+
+.flowTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flowPlus {
+  color: var(--color-cyan);
+  margin-right: 3px;
+}
+
+.activeBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #16a34a;
+  white-space: nowrap;
+}
+
+.activeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+.flowActions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.flowBtn {
+  padding: 3px 8px;
+  font-size: 10px;
+  white-space: nowrap;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  cursor: default;
+  font-family: var(--font-primary);
+}
+
+.flowBtnPrimary {
+  background: var(--gradient-cyan-blue);
+  border: none;
+  color: #fff;
+}
+
+/* Flow rows — los nodos se distribuyen para llenar el ancho sin
+   desbordar (evita huecos en pantallas anchas y recortes en estrechas). */
+.flowRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.nodeWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: var(--space-2) 4px;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.node i {
+  font-size: 1rem;
+}
+
+.nodeLabel {
+  font-size: 8px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  padding: 0 2px;
+  flex: 0 0 auto;
+}
+
+/* Desktop grande: mockup protagonista (tamaño equilibrado).
+   En PC el hero es de ancho fijo (1180px) → el dashboard es más
+   angosto, así que se compacta la fila de KPIs para que los 4 quepan. */
+@media (min-width: 1280px) {
+  .panel {
+    height: 450px;
+  }
+
+  .kpiGrid {
+    gap: 6px;
+  }
+
+  .kpiCard {
+    padding: var(--space-2);
+  }
+
+  .kpiValue {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .panel {
+    height: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    height: 320px;
+  }
+
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

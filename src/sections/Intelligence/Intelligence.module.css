@@ -1,0 +1,496 @@
+/* ── Section wrapper ──────────────────────────────────────── */
+.section {
+  padding: var(--space-24) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.4), transparent);
+}
+
+.bgGlow {
+  position: absolute;
+  top: 10%;
+  right: -15%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── Main dashboard card ─────────────────────────────────── */
+.dashCard {
+  margin-top: var(--space-16);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  box-shadow: 0 18px 50px rgba(22, 38, 63, 0.10);
+  animation: fadeInUp 0.8s ease both;
+}
+
+/* Card header */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.liveIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+  animation: pulseDot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.realtime {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.previewBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  cursor: default;
+}
+
+/* KPI row */
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.kpiCard {
+  padding: var(--space-4);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  transition: border-color var(--transition-base);
+}
+
+.kpiCard:hover {
+  border-color: var(--color-cyan);
+}
+
+.kpiLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.kpiValue {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+}
+
+.kpiDelta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.positive { color: #16a34a; }
+.negative { color: #dc2626; }
+
+/* Chart row */
+.chartRow {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-4);
+  min-height: 220px;
+}
+
+/* Bar chart */
+.barChartCard {
+  padding: var(--space-5);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.barChartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.barChartTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.monthlyBadge {
+  padding: 2px var(--space-3);
+  background: var(--color-cyan-dim);
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-cyan);
+}
+
+.barChart {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding-bottom: var(--space-4);
+  position: relative;
+}
+
+/* Horizontal grid lines */
+.barChart::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 25%;
+  height: 1px;
+  background: rgba(22, 38, 63, 0.06);
+}
+.barChart::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  height: 1px;
+  background: rgba(22, 38, 63, 0.06);
+}
+
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 140px;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 100%;
+  background: linear-gradient(to top, #14b8a6, #5eead4);
+  border-radius: 3px 3px 0 0;
+  opacity: 0.9;
+  transition: height 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.barLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  position: absolute;
+  bottom: 0;
+}
+
+/* Right column */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Donut chart */
+.donutCard {
+  flex: 1;
+  padding: var(--space-4);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.donutHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.donutWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.donutSvg {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.donutArc {
+  transition: stroke-dasharray 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.legendDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* AI card */
+.aiCard {
+  padding: var(--space-4);
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.aiHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.aiIcon {
+  color: var(--color-purple);
+  font-size: var(--font-size-sm);
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+.aiTitle {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.aiMetrics {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.aiMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aiMetricLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.aiMetricValue {
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: #16a34a;
+}
+
+.confidenceBar {
+  height: 4px;
+  background: var(--color-surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.confidenceFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-purple), var(--color-cyan));
+  border-radius: var(--radius-full);
+  transition: width 1.2s ease 0.4s;
+}
+
+/* ── Feature cards ─────────────────────────────────────────── */
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-8);
+}
+
+.featureCard {
+  padding: var(--space-6) var(--space-8);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: var(--space-4);
+  transition: all var(--transition-slow);
+  animation: fadeInUp 0.6s ease both;
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  background: #ffffff;
+  border-color: rgba(22, 38, 63, 0.14);
+  box-shadow: 0 12px 32px rgba(22, 38, 63, 0.10);
+}
+
+/* Icon wrapper */
+.featureIconWrapper {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Icon color variants */
+.icon_cyan    { background: linear-gradient(135deg, rgba(20,184,166,0.20), rgba(59,130,246,0.18)); color: var(--color-cyan);    border: 1px solid rgba(20,184,166,0.3);   }
+.icon_purple  { background: linear-gradient(135deg, rgba(123,47,255,0.3),  rgba(255,0,170,0.2));  color: var(--color-purple);  border: 1px solid rgba(123,47,255,0.35); }
+.icon_teal    { background: linear-gradient(135deg, rgba(0,200,180,0.25),  rgba(0,245,255,0.15)); color: #00c8b4;              border: 1px solid rgba(0,200,180,0.3);  }
+.icon_orange  { background: linear-gradient(135deg, rgba(255,140,0,0.25),  rgba(200,80,0,0.2));   color: #ff8c00;              border: 1px solid rgba(255,140,0,0.3);  }
+.icon_red     { background: linear-gradient(135deg, rgba(180,30,60,0.35),  rgba(120,0,40,0.3));   color: #e05070;              border: 1px solid rgba(180,30,60,0.4);  }
+
+.featureTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.featureDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+/* Desktop grande: se acota el ancho de la sección para que no se
+   vea tan ancha (~20% más angosta en pantallas amplias). Centrado. */
+@media (min-width: 1280px) {
+  .dashCard,
+  .featureGrid {
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .chartRow {
+    grid-template-columns: 1fr;
+  }
+
+  .rightCol {
+    flex-direction: row;
+  }
+
+  .donutCard, .aiCard {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-16) 0;
+  }
+
+  .kpiRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .rightCol {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-12) 0;
+  }
+
+  .kpiRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kpiValue {
+    font-size: var(--font-size-xl);
+  }
+
+  .dashCard {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .featureCard {
+    padding: var(--space-5);
+  }
+
+  .featureGrid {
+    margin-top: var(--space-5);
+  }
+}

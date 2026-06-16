@@ -1,0 +1,98 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-spring);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.button:hover::before {
+  opacity: 1;
+}
+
+/* Variants */
+.primary {
+  background: var(--gradient-cyan-blue);
+  color: #fff;
+  border: none;
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.30);
+}
+
+.primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(20, 184, 166, 0.45);
+}
+
+.primary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--color-cyan);
+  border: 1.5px solid var(--color-cyan);
+  box-shadow: inset 0 0 0 0 var(--color-cyan-dim);
+}
+
+.secondary:hover {
+  background: var(--color-cyan-dim);
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.20);
+  transform: translateY(-2px);
+}
+
+.ghost {
+  background: var(--color-surface-2);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--glass-border);
+}
+
+.ghost:hover {
+  background: var(--color-surface-3);
+  color: var(--color-text-primary);
+  border-color: rgba(22,38,63,0.16);
+  transform: translateY(-2px);
+}
+
+/* Sizes */
+.sm {
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--font-size-sm);
+}
+
+.md {
+  padding: var(--space-3) var(--space-8);
+  font-size: var(--font-size-base);
+}
+
+.lg {
+  padding: var(--space-4) var(--space-10);
+  font-size: var(--font-size-md);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .lg {
+    padding: var(--space-3) var(--space-8);
+    font-size: var(--font-size-base);
+  }
+}
