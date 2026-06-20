@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { Container } from '../../common/Container';
+import { TermsModal } from './TermsModal';
 import styles from './Footer.module.css';
 
 const navLinks = [
@@ -19,6 +21,13 @@ const serviceLinks = [
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const [showTerms, setShowTerms] = useState(false);
+
+  // Bloquea el scroll del fondo mientras el modal de términos está abierto.
+  useEffect(() => {
+    document.body.style.overflow = showTerms ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [showTerms]);
 
   return (
     <footer className={styles.footer} role="contentinfo">
@@ -93,17 +102,36 @@ export function Footer() {
 
         </div>
 
+        {/* Aviso de uso de IA — requerido por temas legales */}
+        <p className={styles.aiNotice}>
+          <i className="fa-solid fa-robot" aria-hidden="true" />
+          Este sitio web utiliza inteligencia artificial (IA) en sus chatbots,
+          automatizaciones e interacciones. Las respuestas generadas por IA pueden
+          contener imprecisiones y no constituyen asesoramiento profesional. Al usar
+          el sitio aceptas nuestros{' '}
+          <button type="button" className={styles.inlineLink} onClick={() => setShowTerms(true)}>
+            Términos y Condiciones
+          </button>.
+        </p>
+
         {/* Bottom bar */}
         <div className={styles.bottom}>
           <p className={styles.copyright}>
             © {year} Aiflow. Todos los derechos reservados.
           </p>
-          <span className={styles.status}>
-            <span className={styles.statusDot} aria-hidden />
-            Sistemas operativos
-          </span>
+          <div className={styles.bottomRight}>
+            <button type="button" className={styles.legalLink} onClick={() => setShowTerms(true)}>
+              Términos y Condiciones
+            </button>
+            <span className={styles.status}>
+              <span className={styles.statusDot} aria-hidden />
+              Sistemas operativos
+            </span>
+          </div>
         </div>
       </Container>
+
+      {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
     </footer>
   );
 }

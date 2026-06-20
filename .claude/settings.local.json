@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npx vite *)",
+      "Bash(Start-Sleep -Seconds 3)",
+      "Bash(npx localtunnel *)",
+      "Bash(echo \"Vite preview started with PID $!\")",
+      "Bash(echo \"Localtunnel PID $!\")",
+      "Read(//tmp/**)",
+      "mcp__Claude_Preview__preview_start",
+      "PowerShell(Get-Process -Name \"node\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)"
+    ]
+  }
+}
