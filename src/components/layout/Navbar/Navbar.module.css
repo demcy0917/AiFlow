@@ -36,7 +36,7 @@
 
 .logoImg {
   display: block;
-  height: 48px;
+  height: 62px;
   width: auto;
   border-radius: var(--radius-md);
 }
@@ -84,6 +84,43 @@
   display: flex;
   align-items: center;
   gap: var(--space-4);
+}
+
+/* WhatsApp — desktop icon button */
+.whatsappBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: #25d366;
+  color: #fff;
+  font-size: 22px;
+  text-decoration: none;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.whatsappBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+/* WhatsApp — mobile menu link */
+.whatsappMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-full);
+  background: #25d366;
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  text-decoration: none;
 }
 
 /* Mobile CTA — hidden on desktop */
@@ -188,6 +225,6 @@
 
 @media (max-width: 480px) {
   .logoImg {
-    height: 40px;
+    height: 52px;
   }
 }

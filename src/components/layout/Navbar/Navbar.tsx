@@ -33,6 +33,17 @@ export function Navbar() {
               </li>
             ))}
             <li className={styles.mobileCtaItem}>
+              <a
+                href="https://wa.me/50233658428"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.whatsappMobile}
+                onClick={closeMenu}
+              >
+                <i className="fa-brands fa-whatsapp" aria-hidden="true" /> Hablar por WhatsApp
+              </a>
+            </li>
+            <li className={styles.mobileCtaItem}>
               <Button href="#contacto" size="md" onClick={closeMenu}>
                 Agenda una demo
               </Button>
@@ -40,6 +51,16 @@ export function Navbar() {
           </ul>
 
           <div className={styles.actions}>
+            <a
+              href="https://wa.me/50233658428"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.whatsappBtn}
+              aria-label="Hablar por WhatsApp"
+              title="Hablar por WhatsApp"
+            >
+              <i className="fa-brands fa-whatsapp" aria-hidden="true" />
+            </a>
             <Button href="#contacto" size="sm">
               Agenda una demo
             </Button>
