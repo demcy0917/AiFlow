@@ -27,7 +27,7 @@ export function FinalCTA() {
               Agenda una demo
             </Button>
             <Button
-              href="https://wa.me/50258744495"
+              href="https://wa.me/50233658428"
               size="lg"
               variant="secondary"
             >

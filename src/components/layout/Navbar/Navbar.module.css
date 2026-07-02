@@ -34,25 +34,11 @@
   flex-shrink: 0;
 }
 
-.logoIcon {
-  font-size: 1.6rem;
-  color: var(--color-cyan);
-  filter: drop-shadow(0 0 8px var(--color-cyan));
-}
-
-.logoText {
-  font-family: var(--font-display);
-  font-size: var(--font-size-xl);
-  font-weight: 800;
-  color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-}
-
-.logoAccent {
-  background: var(--gradient-cyan-blue);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.logoImg {
+  display: block;
+  height: 48px;
+  width: auto;
+  border-radius: var(--radius-md);
 }
 
 /* Nav links */
@@ -201,7 +187,7 @@
 }
 
 @media (max-width: 480px) {
-  .logoText {
-    font-size: var(--font-size-lg);
+  .logoImg {
+    height: 40px;
   }
 }

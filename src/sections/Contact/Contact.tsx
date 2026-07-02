@@ -5,7 +5,7 @@ import { Container } from '../../components/common/Container';
 import { SectionTitle } from '../../components/common/SectionTitle';
 import styles from './Contact.module.css';
 
-const WHATSAPP_NUMBER = '50258744495';
+const WHATSAPP_NUMBER = '50233658428';
 
 interface ContactOption {
   icon: ReactNode;
@@ -15,8 +15,8 @@ interface ContactOption {
 }
 
 const contactOptions: ContactOption[] = [
-  { icon: <i className="fa-solid fa-envelope" />,       label: 'Email',     value: 'davidmelgar28115@gmail.com', href: 'mailto:davidmelgar28115@gmail.com' },
-  { icon: <i className="fa-brands fa-whatsapp" />,      label: 'WhatsApp',  value: '+502 5874-4495',             href: `https://wa.me/${WHATSAPP_NUMBER}` },
+  { icon: <i className="fa-solid fa-envelope" />,       label: 'Email',     value: 'demcy@aiflowgt.com',         href: 'mailto:demcy@aiflowgt.com' },
+  { icon: <i className="fa-brands fa-whatsapp" />,      label: 'WhatsApp',  value: '+502 3365-8428',             href: `https://wa.me/${WHATSAPP_NUMBER}` },
   { icon: <i className="fa-solid fa-location-dot" />,   label: 'Ubicación', value: 'Guatemala',                  href: '#' },
 ];
 

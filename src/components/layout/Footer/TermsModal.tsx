@@ -106,8 +106,8 @@ export function TermsModal({ onClose }: TermsModalProps) {
             <p>
               Si tienes dudas sobre estos Términos y Condiciones o sobre el uso de
               IA en nuestros servicios, escríbenos a{' '}
-              <a href="mailto:davidmelgar28115@gmail.com" className={styles.link}>
-                davidmelgar28115@gmail.com
+              <a href="mailto:demcy@aiflowgt.com" className={styles.link}>
+                demcy@aiflowgt.com
               </a>.
             </p>
           </section>

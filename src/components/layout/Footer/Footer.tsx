@@ -38,10 +38,7 @@ export function Footer() {
           {/* Brand */}
           <div className={styles.brand}>
             <a href="#inicio" className={styles.logo} aria-label="Aiflow – Inicio">
-              <span className={styles.logoIcon}>⬡</span>
-              <span className={styles.logoText}>
-                Ai<span className={styles.logoAccent}>flow</span>
-              </span>
+              <img src="/logoaiflow.jpeg" alt="Aiflow" className={styles.logoImg} />
             </a>
             <p className={styles.tagline}>
               Automatizaciones, chatbots con IA, sistemas y software a la medida
@@ -83,14 +80,14 @@ export function Footer() {
             <ul className={styles.contactList}>
               <li>
                 <i className="fa-solid fa-envelope" aria-hidden="true" />
-                <a href="mailto:davidmelgar28115@gmail.com" className={styles.contactLink}>
-                  davidmelgar28115@gmail.com
+                <a href="mailto:demcy@aiflowgt.com" className={styles.contactLink}>
+                  demcy@aiflowgt.com
                 </a>
               </li>
               <li>
                 <i className="fa-brands fa-whatsapp" aria-hidden="true" />
-                <a href="https://wa.me/50258744495" className={styles.contactLink} target="_blank" rel="noreferrer">
-                  +502 5874-4495
+                <a href="https://wa.me/50233658428" className={styles.contactLink} target="_blank" rel="noreferrer">
+                  +502 3365-8428
                 </a>
               </li>
               <li>
