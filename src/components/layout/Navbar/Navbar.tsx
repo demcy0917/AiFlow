@@ -21,7 +21,7 @@ export function Navbar() {
       <Container>
         <nav className={styles.nav} aria-label="Navegación principal">
           <a href="#inicio" className={styles.logo} aria-label="Aiflow – Inicio">
-            <img src="/logoaiflow.jpeg" alt="Aiflow" className={styles.logoImg} />
+            <img src="/logoaiflow.png" alt="Aiflow" className={styles.logoImg} />
           </a>
 
           <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`} role="list">

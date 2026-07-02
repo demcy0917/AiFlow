@@ -38,7 +38,7 @@ export function Footer() {
           {/* Brand */}
           <div className={styles.brand}>
             <a href="#inicio" className={styles.logo} aria-label="Aiflow – Inicio">
-              <img src="/logoaiflow.jpeg" alt="Aiflow" className={styles.logoImg} />
+              <img src="/logoaiflow.png" alt="Aiflow" className={styles.logoImg} />
             </a>
             <p className={styles.tagline}>
               Automatizaciones, chatbots con IA, sistemas y software a la medida
