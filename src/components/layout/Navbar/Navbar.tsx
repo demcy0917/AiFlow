@@ -20,8 +20,8 @@ export function Navbar() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`} role="banner">
       <Container>
         <nav className={styles.nav} aria-label="Navegación principal">
-          <a href="#inicio" className={styles.logo} aria-label="Aiflow – Inicio">
-            <img src="/logoaiflow.png" alt="Aiflow" className={styles.logoImg} />
+          <a href="#inicio" className={styles.logo} aria-label="demcy.ia – Inicio">
+            <img src="/logoaiflow.png" alt="demcy.ia" className={styles.logoImg} />
           </a>
 
           <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`} role="list">

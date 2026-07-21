@@ -1,0 +1,415 @@
+/* ── Botón flotante ─────────────────────────────────── */
+
+.launcher {
+  position: fixed;
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 900;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+
+  padding: var(--space-4) var(--space-5);
+  border: none;
+  border-radius: var(--radius-full);
+
+  background: var(--gradient-cyan-blue);
+  color: #fff;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: var(--shadow-button);
+  transition: transform var(--transition-spring), opacity var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.launcher:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.45);
+}
+
+.launcher i {
+  font-size: var(--font-size-lg);
+}
+
+.launcherHidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+/* ── Fondo oscuro (solo móvil) ──────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+
+  background: rgba(22, 38, 63, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+/* ── Barra lateral ──────────────────────────────────── */
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  max-width: 100vw;
+  height: 100dvh;
+
+  background: var(--color-bg-secondary);
+  border-left: 1px solid var(--color-border);
+  box-shadow: -12px 0 40px rgba(22, 38, 63, 0.12);
+
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--transition-slow), visibility var(--transition-slow);
+}
+
+.panelOpen {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* ── Encabezado ─────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-shrink: 0;
+
+  padding: var(--space-4) var(--space-5);
+  background: var(--gradient-cyan-blue);
+  color: #fff;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.2);
+  font-size: var(--font-size-md);
+}
+
+.headerTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.headerStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: 2px;
+  font-size: var(--font-size-xs);
+  opacity: 0.9;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: #4ade80;
+}
+
+.closeBtn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Mensajes ───────────────────────────────────────── */
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+
+  background: var(--color-bg-primary);
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rowUser {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.bubbleBot {
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-sm);
+  box-shadow: var(--shadow-card);
+}
+
+.bubbleUser {
+  background: var(--gradient-cyan-blue);
+  color: #fff;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg);
+}
+
+.line:not(:last-child) {
+  margin-bottom: var(--space-2);
+}
+
+.line:empty {
+  display: none;
+}
+
+.link {
+  color: var(--color-cyan);
+  text-decoration: underline;
+}
+
+.waLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+
+  border-radius: var(--radius-full);
+  background: #25d366;
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: filter var(--transition-fast);
+}
+
+.waLink:hover {
+  filter: brightness(1.08);
+}
+
+/* ── Tres puntitos de "escribiendo" ─────────────────── */
+
+.typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: var(--space-4);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-text-muted);
+  animation: bounce 1.3s infinite ease-in-out;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+  .panel {
+    transition: none;
+  }
+}
+
+.error {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-magenta-dim);
+  color: var(--color-magenta);
+  font-size: var(--font-size-xs);
+}
+
+/* ── Sugerencias rápidas ────────────────────────────── */
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.suggestion {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-cyan);
+  border-radius: var(--radius-full);
+
+  background: transparent;
+  color: var(--color-cyan);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.suggestion:hover {
+  background: var(--color-cyan);
+  color: #fff;
+}
+
+/* ── Campo de escritura ─────────────────────────────── */
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  flex-shrink: 0;
+
+  padding: var(--space-4) var(--space-5) var(--space-3);
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+}
+
+.input {
+  flex: 1;
+  max-height: 120px;
+  padding: var(--space-3) var(--space-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  resize: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 3px var(--color-cyan-dim);
+}
+
+.sendBtn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--gradient-cyan-blue);
+  color: #fff;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.sendBtn:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.sendBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.disclaimer {
+  flex-shrink: 0;
+  padding: 0 var(--space-5) var(--space-4);
+  background: var(--color-bg-secondary);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.disclaimer a {
+  color: var(--color-cyan);
+}
+
+/* ── Móvil ──────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .panel {
+    width: 100%;
+  }
+
+  .overlayVisible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .launcher {
+    right: var(--space-4);
+    bottom: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  /* En pantallas chicas solo se muestra el ícono. */
+  .launcherText {
+    display: none;
+  }
+}

@@ -37,8 +37,8 @@ export function Footer() {
 
           {/* Brand */}
           <div className={styles.brand}>
-            <a href="#inicio" className={styles.logo} aria-label="Aiflow – Inicio">
-              <img src="/logoaiflow.png" alt="Aiflow" className={styles.logoImg} />
+            <a href="#inicio" className={styles.logo} aria-label="demcy.ia – Inicio">
+              <img src="/logoaiflow.png" alt="demcy.ia" className={styles.logoImg} />
             </a>
             <p className={styles.tagline}>
               Automatizaciones, chatbots con IA, sistemas y software a la medida
@@ -80,8 +80,8 @@ export function Footer() {
             <ul className={styles.contactList}>
               <li>
                 <i className="fa-solid fa-envelope" aria-hidden="true" />
-                <a href="mailto:demcy@aiflowgt.com" className={styles.contactLink}>
-                  demcy@aiflowgt.com
+                <a href="mailto:demcycode@gmail.com" className={styles.contactLink}>
+                  demcycode@gmail.com
                 </a>
               </li>
               <li>
@@ -114,7 +114,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className={styles.bottom}>
           <p className={styles.copyright}>
-            © {year} Aiflow. Todos los derechos reservados.
+            © {year} demcy.ia. Todos los derechos reservados.
           </p>
           <div className={styles.bottomRight}>
             <button type="button" className={styles.legalLink} onClick={() => setShowTerms(true)}>

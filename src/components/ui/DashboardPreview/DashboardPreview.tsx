@@ -37,7 +37,7 @@ export function DashboardPreview() {
             <span className={styles.dot} style={{ background: '#febc2e' }} />
             <span className={styles.dot} style={{ background: '#28c840' }} />
           </div>
-          <span className={styles.chromeTitle}>Aiflow Dashboard</span>
+          <span className={styles.chromeTitle}>demcy.ia Dashboard</span>
         </div>
 
         {/* Metric cards row */}

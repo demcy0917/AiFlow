@@ -9,6 +9,10 @@ dist/
 .env.local
 .env.*.local
 
+# Secrets locales del Worker (OpenAI, Resend) — NUNCA subir al repo
+.dev.vars
+.wrangler/
+
 # Editor
 .vscode/
 .idea/

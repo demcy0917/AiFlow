@@ -1,0 +1,12 @@
+# Copiar este archivo como `.dev.vars` y rellenar los valores.
+# `.dev.vars` está en .gitignore: nunca se sube al repositorio.
+#
+# En producción estos valores NO viven aquí, se cargan con:
+#   npx wrangler secret put OPENAI_API_KEY
+#   npx wrangler secret put RESEND_API_KEY
+
+# Clave de OpenAI — https://platform.openai.com/api-keys
+OPENAI_API_KEY=
+
+# Clave de Resend para el formulario de contacto — https://resend.com/api-keys
+RESEND_API_KEY=

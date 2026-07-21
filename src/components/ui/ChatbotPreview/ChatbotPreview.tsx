@@ -15,7 +15,7 @@ export function ChatbotPreview() {
           <span>🤖</span>
         </div>
         <div className={styles.headerInfo}>
-          <span className={styles.name}>Aiflow Bot</span>
+          <span className={styles.name}>demcy.ia Bot</span>
           <span className={styles.status}>
             <span className={styles.statusDot} />
             En línea

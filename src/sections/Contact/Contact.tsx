@@ -15,7 +15,7 @@ interface ContactOption {
 }
 
 const contactOptions: ContactOption[] = [
-  { icon: <i className="fa-solid fa-envelope" />,       label: 'Email',     value: 'demcy@aiflowgt.com',         href: 'mailto:demcy@aiflowgt.com' },
+  { icon: <i className="fa-solid fa-envelope" />,       label: 'Email',     value: 'demcycode@gmail.com',         href: 'mailto:demcycode@gmail.com' },
   { icon: <i className="fa-brands fa-whatsapp" />,      label: 'WhatsApp',  value: '+502 3365-8428',             href: `https://wa.me/${WHATSAPP_NUMBER}` },
   { icon: <i className="fa-solid fa-location-dot" />,   label: 'Ubicación', value: 'Guatemala',                  href: '#' },
 ];
@@ -47,23 +47,14 @@ export function Contact() {
     setStatus('loading');
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: import.meta.env.VITE_WEB3FORMS_KEY,
-          subject: `Nuevo contacto Aiflow — ${form.name}`,
-          from_name: 'Aiflow Landing Page',
-          name: form.name,
-          email: form.email,
-          company: form.company || 'No indicó',
-          service: form.service || 'No indicó',
-          message: form.message || 'Sin mensaje',
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
       });
 
-      const data = await res.json();
-      setStatus(data.success ? 'success' : 'error');
+      const data = (await res.json()) as { success?: boolean };
+      setStatus(res.ok && data.success ? 'success' : 'error');
     } catch {
       setStatus('error');
     }

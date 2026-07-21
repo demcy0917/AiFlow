@@ -32,7 +32,7 @@ export function DashPanel() {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <i className={`fa-solid fa-chart-line ${styles.headerIcon}`} aria-hidden="true" />
-          <span className={styles.headerTitle}>Aiflow Dashboard</span>
+          <span className={styles.headerTitle}>demcy.ia Dashboard</span>
         </div>
         <span className={styles.period}>Últimos 7 días ▾</span>
       </div>

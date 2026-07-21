@@ -60,7 +60,7 @@ export function TermsModal({ onClose }: TermsModalProps) {
           <section className={styles.section}>
             <h3 className={styles.heading}>1. Uso de Inteligencia Artificial</h3>
             <p>
-              Este sitio web y los servicios de Aiflow emplean tecnologías de
+              Este sitio web y los servicios de demcy.ia emplean tecnologías de
               inteligencia artificial (IA), incluyendo chatbots, asistentes
               virtuales, automatizaciones y procesamiento de lenguaje natural. Al
               navegar e interactuar con el sitio reconoces y aceptas que parte del
@@ -94,7 +94,7 @@ export function TermsModal({ onClose }: TermsModalProps) {
           <section className={styles.section}>
             <h3 className={styles.heading}>4. Limitación de responsabilidad</h3>
             <p>
-              Aiflow no será responsable por decisiones, daños o perjuicios
+              demcy.ia no será responsable por decisiones, daños o perjuicios
               derivados del uso de la información generada por IA en este sitio. El
               uso del sitio y de sus funciones automatizadas se realiza bajo tu
               propia responsabilidad.
@@ -106,8 +106,8 @@ export function TermsModal({ onClose }: TermsModalProps) {
             <p>
               Si tienes dudas sobre estos Términos y Condiciones o sobre el uso de
               IA en nuestros servicios, escríbenos a{' '}
-              <a href="mailto:demcy@aiflowgt.com" className={styles.link}>
-                demcy@aiflowgt.com
+              <a href="mailto:demcycode@gmail.com" className={styles.link}>
+                demcycode@gmail.com
               </a>.
             </p>
           </section>

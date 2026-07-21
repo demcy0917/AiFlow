@@ -1,7 +1,7 @@
 import type { TeamMember } from '../types';
 
 /* ───────────────────────────────────────────────────────────────
-   EQUIPO DE AIFLOW
+   EQUIPO DE DEMCY.IA
    ---------------------------------------------------------------
    Para editar un miembro, cambia los campos de abajo.
 
@@ -21,7 +21,7 @@ export const team: TeamMember[] = [
     role: 'Chief Executive Officer (CEO)',
     badge: 'VISIONARY LEADERSHIP',
     description:
-      'Visionario al frente de la estrategia y la innovación, liderando la transformación digital y el crecimiento de Aiflow.',
+      'Visionario al frente de la estrategia y la innovación, liderando la transformación digital y el crecimiento de demcy.ia.',
     image: '/team/david-melgar.jpeg',
     initials: 'DM',
     color: 'cyan',
