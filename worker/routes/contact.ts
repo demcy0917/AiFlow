@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { buildContactEmail } from '../email';
 import { rateLimit } from '../rateLimit';
 import type { Env } from '../types';
 
@@ -21,14 +22,6 @@ interface ContactPayload {
 }
 
 const MAX_FIELD = 2000;
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
 
 export const contactRoute = new Hono<{ Bindings: Env }>();
 
@@ -73,15 +66,7 @@ contactRoute.post('/', async (c) => {
   const service = (body.service ?? '').trim() || 'No indicó';
   const message = (body.message ?? '').trim() || 'Sin mensaje';
 
-  const html = `
-    <h2>Nuevo contacto desde la web de demcy.ia</h2>
-    <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
-    <p><strong>Correo:</strong> ${escapeHtml(email)}</p>
-    <p><strong>Empresa:</strong> ${escapeHtml(company)}</p>
-    <p><strong>Servicio de interés:</strong> ${escapeHtml(service)}</p>
-    <p><strong>Mensaje:</strong></p>
-    <p>${escapeHtml(message).replace(/\n/g, '<br />')}</p>
-  `;
+  const { html, text } = buildContactEmail({ name, email, company, service, message });
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -96,6 +81,7 @@ contactRoute.post('/', async (c) => {
         reply_to: email,
         subject: `Nuevo contacto demcy.ia — ${name}`,
         html,
+        text,
       }),
     });
 

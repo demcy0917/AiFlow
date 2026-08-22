@@ -43,7 +43,7 @@
 
 .logoImg {
   display: block;
-  height: 56px;
+  height: 64px;
   width: auto;
   border-radius: var(--radius-md);
 }

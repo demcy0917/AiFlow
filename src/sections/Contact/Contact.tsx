@@ -17,7 +17,7 @@ interface ContactOption {
 const contactOptions: ContactOption[] = [
   { icon: <i className="fa-solid fa-envelope" />,       label: 'Email',     value: 'demcycode@gmail.com',         href: 'mailto:demcycode@gmail.com' },
   { icon: <i className="fa-brands fa-whatsapp" />,      label: 'WhatsApp',  value: '+502 3365-8428',             href: `https://wa.me/${WHATSAPP_NUMBER}` },
-  { icon: <i className="fa-solid fa-location-dot" />,   label: 'Ubicación', value: 'Guatemala',                  href: '#' },
+  { icon: <i className="fa-brands fa-instagram" />,     label: 'Instagram', value: '@demcy.ia',                  href: 'https://www.instagram.com/demcy.ia' },
 ];
 
 interface FormState {

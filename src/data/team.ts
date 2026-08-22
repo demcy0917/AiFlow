@@ -27,6 +27,7 @@ export const team: TeamMember[] = [
     color: 'cyan',
     socials: [
       { icon: 'fa-brands fa-github', label: 'GitHub', href: 'https://github.com/demcy0917' },
+      { icon: 'fa-solid fa-globe', label: 'Portafolio', href: 'https://portafolio.davidmelgar28115.workers.dev/' },
     ],
   },
   {
@@ -66,5 +67,41 @@ export const team: TeamMember[] = [
     initials: 'MG',
     color: 'magenta',
     socials: [],
+  },
+  {
+    id: 'ciso',
+    name: 'Ing. Carlos Reyna',
+    role: 'Chief Information Security Officer (CISO)',
+    badge: 'SECURITY & COMPLIANCE',
+    description:
+      'Experto en estrategia de ciberseguridad, gestión de riesgos, cumplimiento normativo y protección de activos de información en entornos empresariales.',
+    image: '/team/carlos-reyna.jpeg',
+    initials: 'CR',
+    color: 'blue',
+    socials: [
+      {
+        icon: 'fa-brands fa-linkedin-in',
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/carlos-andres-de-jesus-reyna-zu%C3%B1iga-236193377',
+      },
+    ],
+  },
+  {
+    id: 'cm',
+    name: 'Lic. Mario Moreira',
+    role: 'Community Manager',
+    badge: 'BRAND & COMMUNITY',
+    description:
+      'Creativo y estratégico en la gestión de redes sociales, encargado de fortalecer la presencia digital de demcy.ia y conectar la marca con su comunidad.',
+    image: '/team/mario-moreira.jpeg',
+    initials: 'MM',
+    color: 'purple',
+    socials: [
+      {
+        icon: 'fa-solid fa-globe',
+        label: 'Portafolio',
+        href: 'https://neilscz.github.io/Portafolioweb.github.io/',
+      },
+    ],
   },
 ];
