@@ -58,6 +58,40 @@ export function ChatWidget() {
     if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
 
+  /* Mantener el panel dentro de la parte visible de la pantalla.
+     Al abrirse el teclado en movil, el viewport visible se encoge pero el
+     de layout no: un panel de 100dvh conserva su alto, el navegador
+     desplaza para mostrar el campo de texto y la cabecera y los mensajes
+     se van fuera de pantalla. Aqui se copia el alto real de
+     visualViewport a --chat-h, y su desplazamiento a --chat-top, que en
+     iOS hace falta porque un position: fixed se ancla al viewport de
+     layout. Sin visualViewport no se toca nada y manda el 100dvh del CSS. */
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!isOpen || !vv) return;
+
+    const raiz = document.documentElement;
+
+    function sincronizar() {
+      // vv nunca es null aqui: la salida temprana de arriba lo garantiza,
+      // pero el cierre lo captura como posiblemente nulo.
+      if (!vv) return;
+      raiz.style.setProperty('--chat-h', `${vv.height}px`);
+      raiz.style.setProperty('--chat-top', `${vv.offsetTop}px`);
+    }
+
+    sincronizar();
+    vv.addEventListener('resize', sincronizar);
+    vv.addEventListener('scroll', sincronizar);
+
+    return () => {
+      vv.removeEventListener('resize', sincronizar);
+      vv.removeEventListener('scroll', sincronizar);
+      raiz.style.removeProperty('--chat-h');
+      raiz.style.removeProperty('--chat-top');
+    };
+  }, [isOpen]);
+
   async function send(text: string) {
     const trimmed = text.trim();
     if (!trimmed || isTyping) return;
