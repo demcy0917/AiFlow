@@ -99,11 +99,13 @@ export function ChatWidget() {
       const brecha = window.innerHeight - vv.height;
 
       if (brecha > 60) {
+        /* Solo la altura. El offsetTop se probo en un telefono real y
+           sobraba: el navegador ya dibuja el panel pegado al borde
+           visible, asi que sumarlo dejaba un hueco del mismo tamano
+           abajo, por donde se veia la pagina de atras. */
         raiz.style.setProperty('--chat-h', `${vv.height}px`);
-        raiz.style.setProperty('--chat-top', `${vv.offsetTop}px`);
       } else {
         raiz.style.removeProperty('--chat-h');
-        raiz.style.removeProperty('--chat-top');
       }
 
       setCompacto(vv.height < 420);
@@ -112,10 +114,15 @@ export function ChatWidget() {
         const alto = Math.round(
           document.querySelector('aside[role="dialog"]')?.getBoundingClientRect().height ?? 0
         );
+        const caja = document
+          .querySelector('aside[role="dialog"]')
+          ?.getBoundingClientRect();
         setMedidas(
-          `vv ${Math.round(vv.height)} · panel ${alto} · compacto ${
+          `vv ${Math.round(vv.height)} panel ${alto} top ${Math.round(
+            caja?.top ?? 0
+          )} bot ${Math.round(caja?.bottom ?? 0)} comp ${
             vv.height < 420 ? 'SI' : 'NO'
-          } · inner ${window.innerHeight} · off ${Math.round(vv.offsetTop)}`
+          } off ${Math.round(vv.offsetTop)}`
         );
       }
     }
@@ -128,7 +135,6 @@ export function ChatWidget() {
       vv.removeEventListener('resize', sincronizar);
       vv.removeEventListener('scroll', sincronizar);
       raiz.style.removeProperty('--chat-h');
-      raiz.style.removeProperty('--chat-top');
       setCompacto(false);
     };
   }, [isOpen]);
@@ -301,7 +307,17 @@ export function ChatWidget() {
         </form>
 
         {medidas && (
-          <p className={styles.disclaimer} style={{ color: '#22d3ee' }}>
+          <p
+            style={{
+              flexShrink: 0,
+              margin: 0,
+              padding: '2px 8px',
+              fontSize: '11px',
+              textAlign: 'center',
+              color: '#22d3ee',
+              background: '#000',
+            }}
+          >
             {medidas}
           </p>
         )}

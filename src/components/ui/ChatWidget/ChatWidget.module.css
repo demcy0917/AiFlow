@@ -118,12 +118,10 @@
    visualViewport mientras el panel esta abierto. Sin eso, al abrirse el
    teclado en movil el panel conserva los 100dvh, el navegador desplaza
    para ver el campo de texto y la cabecera y los mensajes quedan fuera
-   de pantalla. --chat-top compensa el desplazamiento en iOS, donde un
-   position: fixed se ancla al viewport de layout, no al visible.
-   100dvh queda de reserva para cuando no hay visualViewport. */
+   de pantalla. 100dvh queda de reserva para cuando no hay visualViewport. */
 .panel {
   position: fixed;
-  top: var(--chat-top, 0px);
+  top: 0;
   right: 0;
   z-index: 1000;
 
