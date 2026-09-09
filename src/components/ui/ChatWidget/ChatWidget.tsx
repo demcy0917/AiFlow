@@ -38,6 +38,11 @@ export function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  /* Lector de medidas para diagnosticar el panel en un telefono real,
+     donde no hay consola. Se activa con ?chatdebug=1 en la URL; sin ese
+     parametro no se calcula ni se muestra nada. Es temporal. */
+  const [medidas, setMedidas] = useState<string | null>(null);
+
   // Auto-scroll al último mensaje.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -76,8 +81,36 @@ export function ChatWidget() {
       // vv nunca es null aqui: la salida temprana de arriba lo garantiza,
       // pero el cierre lo captura como posiblemente nulo.
       if (!vv) return;
-      raiz.style.setProperty('--chat-h', `${vv.height}px`);
-      raiz.style.setProperty('--chat-top', `${vv.offsetTop}px`);
+
+      /* Solo forzar el alto cuando el viewport de layout NO se encogio.
+         Con interactive-widget=resizes-content, Chrome Android ya lo
+         encoge al abrir el teclado, y entonces 100dvh mide bien: forzar
+         encima resta el teclado dos veces y el panel queda mas corto que
+         la pantalla. En iOS el layout no se encoge, innerHeight sigue
+         entero y ahi si hay que imponer la medida.
+
+         El umbral de 60px evita reaccionar a la barra del navegador, que
+         aparece y desaparece con el scroll y mueve pocos pixeles. */
+      const brecha = window.innerHeight - vv.height;
+
+      if (brecha > 60) {
+        raiz.style.setProperty('--chat-h', `${vv.height}px`);
+        raiz.style.setProperty('--chat-top', `${vv.offsetTop}px`);
+      } else {
+        raiz.style.removeProperty('--chat-h');
+        raiz.style.removeProperty('--chat-top');
+      }
+
+      if (new URLSearchParams(location.search).has('chatdebug')) {
+        const alto = Math.round(
+          document.querySelector('aside[role="dialog"]')?.getBoundingClientRect().height ?? 0
+        );
+        setMedidas(
+          `inner ${window.innerHeight} · vv ${Math.round(vv.height)} · off ${Math.round(
+            vv.offsetTop
+          )} · brecha ${Math.round(brecha)} · panel ${alto}`
+        );
+      }
     }
 
     sincronizar();
@@ -257,6 +290,12 @@ export function ChatWidget() {
             <i className="fa-solid fa-paper-plane" aria-hidden="true" />
           </button>
         </form>
+
+        {medidas && (
+          <p className={styles.disclaimer} style={{ color: '#22d3ee' }}>
+            {medidas}
+          </p>
+        )}
 
         <p className={styles.disclaimer}>
           Respuestas generadas con IA. Para una propuesta formal,{' '}
