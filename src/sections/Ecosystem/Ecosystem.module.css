@@ -1,0 +1,284 @@
+/* Fondo transparente: se apoya en el lienzo base y hace de respiro
+   entre el hero y la banda oscura de servicios. */
+.section {
+  position: relative;
+  z-index: 5;
+  padding: 0 0 var(--section-padding-y);
+}
+
+/* ── Cabecera ───────────────────────────────────────────────── */
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.headText {
+  min-width: 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-section);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-title);
+  color: var(--color-text-primary);
+  text-wrap: pretty;
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dimmest);
+  flex: none;
+}
+
+/* ── Filtros ────────────────────────────────────────────────── */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.filter {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.filter:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-hover);
+}
+
+/* El activo va en blanco sólido: es el único elemento invertido de
+   la sección, así se lee de un vistazo cuál está aplicado. */
+.filterActive,
+.filterActive:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--color-bg-primary);
+  font-weight: 600;
+}
+
+/* ── Rejilla ────────────────────────────────────────────────────
+   Columnas EXPLÍCITAS, no auto-fit: son seis soluciones y el punto
+   es que la rejilla quede pareja. Con auto-fit el contenedor daría
+   cuatro columnas y la última fila quedaría coja (4 + 2). Así se
+   reparten 3+3 en escritorio y 2+2+2 en tablet: siempre llena. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+/* ── Tarjeta ────────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  min-width: 0;
+  min-height: 268px;
+  display: flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  /* Fondo propio bajo la imagen: si esta tarda o falla, la tarjeta
+     sigue siendo oscura y el texto se lee igual. */
+  background: var(--color-bg-tertiary);
+  overflow: hidden;
+  transition: border-color var(--transition-base), transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 44px -22px var(--accent);
+}
+
+/* Imagen a sangre. object-fit evita que se deforme cuando la
+   tarjeta crece de alto por un texto más largo. */
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .bg {
+  transform: scale(1.05);
+}
+
+/* Velo de contraste. Dos capas: uno oscurece de abajo hacia arriba
+   (donde va el texto) y otro de izquierda a derecha, para que la
+   imagen respire en la esquina superior derecha, como el diseño.
+
+   Los valores están medidos, no estimados: recompuse tarjeta + velo
+   en un canvas y comparé la luminancia contra el mockup. Con estos
+   números la esquina superior derecha sube de 26.7 a 35.3 (el mockup
+   marca 51) mientras la zona del texto se queda en 7.2, idéntica.
+   Subirlos más aclara justo donde va el título. */
+.veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba(5, 7, 15, 0.95) 8%,
+      rgba(5, 7, 15, 0.68) 44%,
+      rgba(5, 7, 15, 0.04) 100%
+    ),
+    linear-gradient(to right, rgba(5, 7, 15, 0.86), rgba(5, 7, 15, 0) 58%);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  /* auto empuja el bloque de texto al fondo de la tarjeta. */
+  margin-bottom: auto;
+}
+
+/* El isotipo es multicolor: brightness(0) lo vuelve negro sólido e
+   invert(1) lo pasa a blanco, así un solo PNG sirve para las seis. */
+.chip {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-chip);
+}
+
+.chipIcon {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+  /* Sobre foto el texto necesita despegarse del fondo. */
+  text-shadow: 0 2px 12px rgba(5, 7, 15, 0.9);
+}
+
+.nameStrong {
+  display: block;
+  font-weight: 700;
+}
+
+.short {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(232, 236, 248, 0.86);
+  margin-bottom: var(--space-5);
+  text-shadow: 0 1px 10px rgba(5, 7, 15, 0.9);
+}
+
+.cardKicker {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+/* ── Colores por división — leen los tokens de variables.css ─── */
+
+.intelligence { --accent: var(--div-intelligence-solid); }
+.intelligence .chip { background: var(--div-intelligence-chip); }
+
+.flow { --accent: var(--div-flow-solid); }
+.flow .chip { background: var(--div-flow-chip); }
+
+.secure { --accent: var(--div-secure-solid); }
+.secure .chip { background: var(--div-secure-chip); }
+
+.systems { --accent: var(--div-systems-solid); }
+.systems .chip { background: var(--div-systems-chip); }
+
+.creative { --accent: var(--div-creative-solid); }
+.creative .chip { background: var(--div-creative-chip); }
+
+.ops { --accent: var(--div-ops-solid); }
+.ops .chip { background: var(--div-ops-chip); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card {
+    min-height: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .bg {
+    transform: none;
+  }
+}

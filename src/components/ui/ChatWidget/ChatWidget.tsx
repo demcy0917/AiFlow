@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { MessageContent } from './MessageContent';
+import { BRAND, WHATSAPP_PLAIN_URL } from '../../../data/site';
 import styles from './ChatWidget.module.css';
+
+/* ═══════════════════════════════════════════════════════════════
+   ASESOR VIRTUAL — WIDGET FLOTANTE
+   ───────────────────────────────────────────────────────────────
+   Botón fijo abajo a la derecha que abre una barra lateral con la
+   conversación real contra /api/chat. Está disponible en toda la
+   página, no solo en una sección.
+   ═══════════════════════════════════════════════════════════════ */
 
 interface Message {
   role: 'user' | 'assistant';
@@ -10,13 +19,13 @@ interface Message {
 const GREETING: Message = {
   role: 'assistant',
   content:
-    '¡Hola! 👋 Soy el asesor virtual de demcy.ia. Ayudo a negocios a dejar de perder tiempo y dinero en tareas manuales.\n\nContame, ¿a qué se dedica tu negocio?',
+    '¡Hola! 👋 Soy el asesor virtual de SynQ. Ayudo a negocios a dejar de perder tiempo y dinero en tareas manuales.\n\nContame, ¿a qué se dedica tu negocio?',
 };
 
 const SUGGESTIONS = [
   'Pierdo pedidos por anotarlos a mano',
   'Se me olvida cobrarle a mis clientes',
-  '¿Qué puede automatizar demcy.ia?',
+  '¿Qué puede automatizar SynQ?',
 ];
 
 export function ChatWidget() {
@@ -121,16 +130,16 @@ export function ChatWidget() {
         className={`${styles.panel} ${isOpen ? styles.panelOpen : ''}`}
         role="dialog"
         aria-modal="false"
-        aria-label="Asesor virtual de demcy.ia"
+        aria-label="Asesor virtual de SynQ"
         aria-hidden={!isOpen}
       >
         <header className={styles.header}>
           <div className={styles.headerInfo}>
             <span className={styles.avatar}>
-              <i className="fa-solid fa-robot" aria-hidden="true" />
+              <img src={BRAND.isotipo} alt="" className={styles.avatarIcon} />
             </span>
             <div>
-              <p className={styles.headerTitle}>Asesor demcy.ia</p>
+              <p className={styles.headerTitle}>Asesor SynQ</p>
               <p className={styles.headerStatus}>
                 <span className={styles.statusDot} /> En línea
               </p>
@@ -148,10 +157,7 @@ export function ChatWidget() {
 
         <div className={styles.messages} ref={scrollRef}>
           {messages.map((m, i) => (
-            <div
-              key={i}
-              className={`${styles.row} ${m.role === 'user' ? styles.rowUser : ''}`}
-            >
+            <div key={i} className={`${styles.row} ${m.role === 'user' ? styles.rowUser : ''}`}>
               <div
                 className={`${styles.bubble} ${
                   m.role === 'user' ? styles.bubbleUser : styles.bubbleBot
@@ -181,6 +187,7 @@ export function ChatWidget() {
 
           {showSuggestions && (
             <div className={styles.suggestions}>
+              <p className={styles.suggestionsLabel}>Dudas frecuentes</p>
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
@@ -219,7 +226,7 @@ export function ChatWidget() {
 
         <p className={styles.disclaimer}>
           Respuestas generadas con IA. Para una propuesta formal,{' '}
-          <a href="https://wa.me/50233658428" target="_blank" rel="noreferrer">
+          <a href={WHATSAPP_PLAIN_URL} target="_blank" rel="noreferrer">
             escribinos por WhatsApp
           </a>
           .

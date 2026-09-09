@@ -8,7 +8,8 @@
     "dev:api": "wrangler dev",
     "build": "tsc && tsc -p tsconfig.worker.json && vite build",
     "preview": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "email:preview": "node scripts/preview-email.mjs"
   },
   "dependencies": {
     "hono": "^4.12.31",

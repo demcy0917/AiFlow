@@ -1,88 +1,181 @@
+/* Botones SynQ: píldoras completas (radius 999px), como en el
+   diseño de marca. */
+
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  font-family: var(--font-primary);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
   border-radius: var(--radius-full);
-  transition: all var(--transition-spring);
+  transition: transform var(--transition-base), box-shadow var(--transition-base),
+    background var(--transition-base), border-color var(--transition-base),
+    color var(--transition-base), filter var(--transition-base);
   white-space: nowrap;
-  position: relative;
-  overflow: hidden;
   text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  /* Base del efecto lampara de lava.
+     - relative + overflow: recorta las manchas a la forma de pildora.
+     - isolation: crea un contexto de apilamiento propio, para que el
+       z-index negativo de las manchas no se escape por detras de la
+       pagina; se queda dentro del boton.
+     En el orden de pintado del CSS, un hijo con z-index negativo va
+     ENCIMA del fondo del elemento pero DEBAJO de su texto: por eso las
+     manchas tapan el degradado sin tapar la etiqueta, y no hace falta
+     envolver el texto en un <span>. */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-.button::before {
+/* ── Lampara de lava ───────────────────────────────────────────
+   Dos manchas desenfocadas que derivan dentro del boton. Los dos
+   periodos (13s y 17s) no son multiplos entre si, asi que nunca
+   vuelven a coincidir y el movimiento no se lee como un bucle. */
+
+.lava::before,
+.lava::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity var(--transition-base);
+  z-index: -1;
+  top: 50%;
+  width: 4.5em;
+  height: 4.5em;
+  border-radius: 50%;
+  pointer-events: none;
+  /* El desenfoque es lo que convierte dos circulos en "lava". */
+  filter: blur(14px);
+  will-change: transform;
 }
 
-.button:hover::before {
-  opacity: 1;
+.lava::before {
+  left: -1.5em;
+  background: radial-gradient(closest-side, var(--lava-a), transparent);
+  animation: lavaDrift 13s ease-in-out infinite alternate;
 }
 
-/* Variants */
+.lava::after {
+  right: -1.5em;
+  background: radial-gradient(closest-side, var(--lava-b), transparent);
+  animation: lavaDriftBack 17s ease-in-out infinite alternate;
+}
+
+@keyframes lavaDrift {
+  0%   { transform: translate(0, -50%)    scale(1); }
+  35%  { transform: translate(180%, -62%) scale(1.3); }
+  70%  { transform: translate(340%, -38%) scale(0.85); }
+  100% { transform: translate(520%, -55%) scale(1.15); }
+}
+
+@keyframes lavaDriftBack {
+  0%   { transform: translate(0, -50%)     scale(1.1); }
+  40%  { transform: translate(-200%, -35%) scale(0.9); }
+  75%  { transform: translate(-380%, -60%) scale(1.35); }
+  100% { transform: translate(-540%, -45%) scale(1); }
+}
+
+/* Con movimiento reducido las manchas se quedan quietas, pero no
+   desaparecen: el boton conserva su profundidad de color. */
+@media (prefers-reduced-motion: reduce) {
+  .lava::before,
+  .lava::after {
+    animation: none;
+  }
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Variantes ─────────────────────────────────────────────── */
+
+/* Degradado de marca. El CTA principal de la página. */
 .primary {
-  background: var(--gradient-cyan-blue);
+  background: var(--gradient-brand);
   color: #fff;
-  border: none;
-  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.30);
+  box-shadow: var(--shadow-button);
+
+  /* Cian y rosa: los dos extremos del degradado de marca, para que la
+     lava se lea como movimiento del propio boton y no como un parche. */
+  --lava-a: rgba(0, 211, 242, 0.95);
+  --lava-b: rgba(255, 79, 139, 0.95);
 }
 
-.primary:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 28px rgba(20, 184, 166, 0.45);
+.primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
 
-.primary:active {
-  transform: translateY(0) scale(0.99);
+.primary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
+/* Blanco sólido: máximo contraste sobre fondo oscuro. Se usa
+   cuando el botón compite con un fondo ya muy colorido (navbar,
+   bloque final de CTA). */
+.white {
+  background: #fff;
+  color: #05070f;
+}
+
+.white:hover:not(:disabled) {
+  background: var(--color-cyan);
+  transform: translateY(-2px);
+}
+
+/* Contorno: acción secundaria, no compite con el primario. */
 .secondary {
   background: transparent;
-  color: var(--color-cyan);
-  border: 1.5px solid var(--color-cyan);
-  box-shadow: inset 0 0 0 0 var(--color-cyan-dim);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-hover);
+  font-weight: 600;
+
+  /* Mucho mas tenue: aqui la lava insinua color dentro de un boton
+     transparente, no debe competir con el primario que va al lado. */
+  --lava-a: rgba(34, 211, 238, 0.4);
+  --lava-b: rgba(192, 38, 211, 0.4);
 }
 
-.secondary:hover {
-  background: var(--color-cyan-dim);
-  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.20);
+.secondary:hover:not(:disabled) {
+  border-color: var(--color-cyan);
+  color: #fff;
   transform: translateY(-2px);
 }
 
 .ghost {
-  background: var(--color-surface-2);
+  background: var(--color-surface);
   color: var(--color-text-secondary);
-  border: 1px solid var(--glass-border);
+  border-color: var(--color-border);
+  font-weight: 600;
 }
 
-.ghost:hover {
-  background: var(--color-surface-3);
+.ghost:hover:not(:disabled) {
+  background: var(--color-surface-2);
   color: var(--color-text-primary);
-  border-color: rgba(22,38,63,0.16);
+  border-color: var(--color-border-strong);
   transform: translateY(-2px);
 }
 
-/* Sizes */
+/* ── Tamaños ───────────────────────────────────────────────── */
+
 .sm {
-  padding: var(--space-2) var(--space-5);
+  padding: 11px var(--space-5);
   font-size: var(--font-size-sm);
 }
 
 .md {
-  padding: var(--space-3) var(--space-8);
+  padding: 14px var(--space-6);
   font-size: var(--font-size-base);
 }
 
 .lg {
-  padding: var(--space-4) var(--space-10);
+  padding: 16px var(--space-8);
   font-size: var(--font-size-md);
 }
 
@@ -92,7 +185,7 @@
 
 @media (max-width: 480px) {
   .lg {
-    padding: var(--space-3) var(--space-8);
+    padding: 14px var(--space-6);
     font-size: var(--font-size-base);
   }
 }

@@ -14,6 +14,13 @@ export interface Env {
   OPENAI_API_KEY: string;
   /** Secret: clave de Resend para el formulario de contacto. */
   RESEND_API_KEY: string;
+  /**
+   * Remitente del formulario, ej: "SynQ Corporation <hola@tudominio.com>".
+   * Se define en wrangler.jsonc. Su dominio debe estar verificado en Resend.
+   * Si falta, el Worker cae al remitente de prueba, que solo entrega al
+   * dueño de la cuenta de Resend.
+   */
+  CONTACT_FROM?: string;
 }
 
 export interface ChatMessage {

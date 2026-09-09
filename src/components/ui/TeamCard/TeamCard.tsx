@@ -12,10 +12,8 @@ export function TeamCard({ member }: TeamCardProps) {
 
   return (
     <article className={`${styles.card} ${styles[member.color]}`}>
-      {/* Glow border (hover) */}
       <span className={styles.borderGlow} aria-hidden />
 
-      {/* Photo */}
       <div className={styles.photoWrapper}>
         {showImage ? (
           <img
@@ -26,24 +24,23 @@ export function TeamCard({ member }: TeamCardProps) {
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className={styles.fallback} aria-label={member.name}>
+          /* role="img" hace que el aria-label valga: en un div suelto
+             los lectores de pantalla lo ignoran. */
+          <div className={styles.fallback} role="img" aria-label={member.name}>
             <span className={styles.fallbackInitials}>{member.initials}</span>
           </div>
         )}
 
         <div className={styles.photoOverlay} aria-hidden />
 
-        {/* Badge */}
         <span className={styles.badge}>{member.badge}</span>
       </div>
 
-      {/* Info */}
       <div className={styles.info}>
         <h3 className={styles.name}>{member.name}</h3>
         <span className={styles.role}>{member.role}</span>
         <p className={styles.description}>{member.description}</p>
 
-        {/* Socials */}
         {member.socials.length > 0 && (
           <div className={styles.socials}>
             {member.socials.map((s) => (

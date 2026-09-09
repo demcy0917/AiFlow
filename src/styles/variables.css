@@ -1,58 +1,124 @@
+/* ═══════════════════════════════════════════════════════════════
+   SYNQ CORPORATION — SISTEMA DE DISEÑO
+   ───────────────────────────────────────────────────────────────
+   Tema oscuro. Los valores salen del mockup de Claude Design
+   (_disenio-fuente/…/SynQ Landing v2.dc.html).
+
+   Se conservaron a propósito los NOMBRES de los tokens del tema
+   anterior (--color-cyan, --space-4, --glass-bg, …) y solo se
+   cambiaron los VALORES. Así las piezas que sobreviven al
+   rediseño —equipo, contacto y chatbot— heredan el tema oscuro
+   sin tener que reescribir su CSS regla por regla.
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
-  /* Colors — Tema claro (teal) */
-  --color-bg-primary: #f1f7f8;
-  --color-bg-secondary: #ffffff;
-  --color-bg-tertiary: #e9f1f2;
-  --color-bg-card: #ffffff;
-  --color-bg-card-hover: #f6fafb;
+  /* ── Fondos ─────────────────────────────────────────────────
+     "primary" es el lienzo base; "secondary" son las bandas de
+     sección que alternan y dan ritmo vertical a la página.      */
+  --color-bg-primary: #05070f;
+  --color-bg-secondary: #070a14;
+  --color-bg-tertiary: #0b0f1c;
+  --color-bg-card: rgba(255, 255, 255, 0.035);
+  --color-bg-card-hover: rgba(255, 255, 255, 0.06);
 
-  /* Superficies para tarjetas anidadas (reemplazan los blancos translúcidos del tema oscuro) */
-  --color-surface: #ffffff;
-  --color-surface-2: #f1f6f7;
-  --color-surface-3: #e7eff1;
+  /* Superficies para elementos anidados (inputs, chips, avatares) */
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-surface-2: rgba(255, 255, 255, 0.055);
+  --color-surface-3: rgba(255, 255, 255, 0.08);
 
-  --color-cyan: #14b8a6;        /* acento principal (teal) */
-  --color-cyan-dim: rgba(20, 184, 166, 0.12);
-  --color-cyan-glow: rgba(20, 184, 166, 0.30);
+  /* ── Acentos de marca ───────────────────────────────────────
+     Los siete colores del isotipo. cyan → blue → purple →
+     magenta recorren el degradado; teal, green y orange
+     completan el espectro de las divisiones.                    */
+  --color-cyan: #22d3ee;
+  --color-cyan-dim: rgba(34, 211, 238, 0.14);
+  --color-cyan-glow: rgba(34, 211, 238, 0.45);
 
-  --color-blue: #3b82f6;
-  --color-blue-dim: rgba(59, 130, 246, 0.12);
-  --color-blue-glow: rgba(59, 130, 246, 0.30);
+  --color-blue: #3b6bff;
+  --color-blue-dim: rgba(59, 107, 255, 0.14);
+  --color-blue-glow: rgba(59, 107, 255, 0.45);
 
   --color-purple: #8b5cf6;
-  --color-purple-dim: rgba(139, 92, 246, 0.12);
-  --color-purple-glow: rgba(139, 92, 246, 0.30);
+  --color-purple-dim: rgba(139, 92, 246, 0.14);
+  --color-purple-glow: rgba(139, 92, 246, 0.45);
 
-  --color-magenta: #ec4899;
-  --color-magenta-dim: rgba(236, 72, 153, 0.12);
-  --color-magenta-glow: rgba(236, 72, 153, 0.30);
+  --color-magenta: #c026d3;
+  --color-magenta-dim: rgba(192, 38, 211, 0.14);
+  --color-magenta-glow: rgba(192, 38, 211, 0.45);
 
-  --color-text-primary: #16263f;
-  --color-text-secondary: #51607a;
-  --color-text-muted: #8a98ad;
+  --color-pink: #ff4f8b;
+  --color-pink-dim: rgba(255, 79, 139, 0.14);
+  --color-pink-glow: rgba(255, 79, 139, 0.45);
 
-  --color-border: rgba(22, 38, 63, 0.08);
-  --color-border-glow: rgba(20, 184, 166, 0.35);
+  --color-teal: #2dd4bf;
+  --color-teal-dim: rgba(45, 212, 191, 0.14);
+  --color-teal-glow: rgba(45, 212, 191, 0.45);
 
-  /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #f1f7f8 0%, #ffffff 50%, #eef6f5 100%);
-  --gradient-cyan-blue: linear-gradient(135deg, #2dd4bf, #14b8a6);
-  --gradient-purple-magenta: linear-gradient(135deg, var(--color-purple), var(--color-magenta));
-  --gradient-full: linear-gradient(135deg, #14b8a6, #3b82f6, #8b5cf6);
-  --gradient-text: linear-gradient(135deg, #2dd4bf, #14b8a6, #0d9488);
+  --color-green: #34d399;
+  --color-green-dim: rgba(52, 211, 153, 0.14);
+  --color-green-glow: rgba(52, 211, 153, 0.4);
 
-  /* Shadows — suaves sobre fondo claro */
-  --shadow-card: 0 4px 20px rgba(22, 38, 63, 0.06);
-  --shadow-card-hover: 0 14px 36px rgba(22, 38, 63, 0.12);
-  --shadow-cyan: 0 8px 24px rgba(20, 184, 166, 0.20);
-  --shadow-blue: 0 8px 24px rgba(59, 130, 246, 0.20);
-  --shadow-purple: 0 8px 24px rgba(139, 92, 246, 0.20);
-  --shadow-magenta: 0 8px 24px rgba(236, 72, 153, 0.20);
-  --shadow-button: 0 8px 22px rgba(20, 184, 166, 0.35);
+  --color-orange: #fb923c;
+  --color-orange-dim: rgba(251, 146, 60, 0.14);
+  --color-orange-glow: rgba(251, 146, 60, 0.42);
 
-  /* Typography */
-  --font-primary: 'Inter', sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
+  /* ── Texto ──────────────────────────────────────────────────
+     Cinco niveles. Sobre #05070f, "muted" (#8ea0c4) es el más
+     tenue que aún cumple contraste AA para texto normal.        */
+  --color-text-primary: #e8ecf8;
+  --color-text-secondary: #b3bfd8;
+  --color-text-tertiary: #a9b5d0;
+  --color-text-muted: #8ea0c4;
+  --color-text-dim: #7f8fb3;
+  --color-text-dimmest: #6f7fa3;
+
+  /* ── Bordes ─────────────────────────────────────────────────
+     Blancos translúcidos: se ven parejos sobre cualquier
+     superficie oscura, a diferencia de un gris fijo.            */
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-border-soft: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-border-hover: rgba(255, 255, 255, 0.24);
+  --color-border-glow: rgba(34, 211, 238, 0.5);
+
+  /* ── Degradados ─────────────────────────────────────────────
+     --gradient-brand es la firma de SynQ: recorre los cuatro
+     colores del isotipo y se usa en botones, barra superior y
+     acentos. El ángulo 100deg es el del mockup.                 */
+  --gradient-brand: linear-gradient(100deg, #00d3f2, #3b6bff 38%, #c026d3 72%, #ff4f8b);
+  --gradient-text: linear-gradient(100deg, #22d3ee, #3b6bff 28%, #c026d3 62%, #ff9b45);
+  --gradient-metric: linear-gradient(100deg, #22d3ee, #8b5cf6 55%, #ff4f8b);
+
+  /* Superficie de tarjeta: un blanco casi imperceptible que cae
+     de arriba a abajo. Da volumen sin aclarar el fondo.         */
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.012));
+  --gradient-card-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+
+  /* Alias heredados del tema anterior, remapeados a la marca */
+  --gradient-cyan-blue: linear-gradient(135deg, #22d3ee, #3b6bff);
+  --gradient-purple-magenta: linear-gradient(135deg, #8b5cf6, #c026d3);
+  --gradient-full: var(--gradient-brand);
+  --gradient-hero: radial-gradient(ellipse 90% 70% at 20% 0%, rgba(59, 107, 255, 0.28), transparent 72%);
+
+  /* ── Sombras ────────────────────────────────────────────────
+     Sobre fondo oscuro una sombra negra casi no se ve, así que
+     el "relieve" lo dan los glows de color.                     */
+  --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 18px 48px rgba(0, 0, 0, 0.6);
+  --shadow-chip: 0 12px 28px -14px rgba(0, 0, 0, 0.9);
+  --shadow-button: 0 16px 40px -18px rgba(192, 38, 211, 0.9);
+  --shadow-cyan: 0 12px 32px -12px var(--color-cyan-glow);
+  --shadow-blue: 0 12px 32px -12px var(--color-blue-glow);
+  --shadow-purple: 0 12px 32px -12px var(--color-purple-glow);
+  --shadow-magenta: 0 12px 32px -12px var(--color-magenta-glow);
+
+  /* ── Tipografía ─────────────────────────────────────────────
+     Sora  → títulos y botones (geométrica, con carácter)
+     Manrope → texto corrido (alta legibilidad en párrafo)
+     JetBrains Mono → kickers, numeración y etiquetas técnicas   */
+  --font-primary: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-display: 'Sora', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -66,7 +132,18 @@
   --font-size-5xl: 3.75rem;
   --font-size-6xl: 4.5rem;
 
-  /* Spacing */
+  /* Escala fluida de los títulos del mockup (clamp propio) */
+  --font-size-hero: clamp(2.625rem, 7.6vw, 6.5rem);
+  --font-size-section: clamp(1.75rem, 3.8vw, 3rem);
+  --font-size-section-sm: clamp(1.625rem, 3.2vw, 2.5rem);
+
+  /* Interletrado: los títulos grandes necesitan negativo para no
+     verse sueltos; los kickers en mono necesitan positivo.       */
+  --tracking-hero: -0.045em;
+  --tracking-title: -0.035em;
+  --tracking-kicker: 0.26em;
+
+  /* ── Espaciado ──────────────────────────────────────────────*/
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -81,97 +158,91 @@
   --space-24: 6rem;
   --space-32: 8rem;
 
-  /* Border radius */
+  /* Aire vertical y horizontal de las secciones (fluido) */
+  --section-padding-y: clamp(3.5rem, 7vw, 6.25rem);
+  --section-padding-x: clamp(1.125rem, 3.5vw, 3rem);
+
+  /* ── Radios ─────────────────────────────────────────────────*/
   --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Transitions */
+  /* ── Transiciones ───────────────────────────────────────────*/
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
   --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Glassmorphism — tarjetas claras sobre fondo claro */
-  --glass-bg: #ffffff;
-  --glass-bg-strong: #ffffff;
-  --glass-border: rgba(22, 38, 63, 0.08);
+  /* ── Glass ──────────────────────────────────────────────────*/
+  --glass-bg: rgba(255, 255, 255, 0.035);
+  --glass-bg-strong: rgba(10, 14, 26, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.09);
   --glass-blur: blur(16px);
   --glass-blur-strong: blur(24px);
 
-  /* Layout */
-  --container-max: 1280px;
-  --container-wide: 1440px;
-  --container-padding: var(--space-6);
-  --navbar-height: 72px;
+  /* ── Layout ─────────────────────────────────────────────────*/
+  --container-max: 1400px;
+  --container-wide: 1400px;
+  --container-padding: var(--section-padding-x);
+  --navbar-height: 68px;
 }
 
-/* ── Pantallas grandes: aprovechar mejor el espacio ──
-   Se ensancha el contenedor y se escala el sistema tipográfico
-   y de espaciado de forma proporcional (vía variables CSS).
-   Tres niveles para cubrir laptops grandes, monitores y 4K. */
+/* ── Colores por división del ecosistema ──────────────────────
+   Cada división tiene un chip (degradado del ícono) y un glow
+   (halo difuso de la tarjeta). Se exponen como tokens para que
+   el ecosistema, el menú del navbar y el pie usen exactamente
+   los mismos valores.                                           */
+:root {
+  --div-intelligence-chip: linear-gradient(140deg, #22d3ee, #0ea5e9);
+  --div-intelligence-glow: radial-gradient(closest-side, rgba(34, 211, 238, 0.5), rgba(5, 7, 15, 0));
+  --div-intelligence-solid: #22d3ee;
 
-/* Laptops grandes / MacBook (≥1440px) */
-@media (min-width: 1440px) {
-  :root {
-    --container-max: 1360px;
-    --container-wide: 1520px;
+  --div-flow-chip: linear-gradient(140deg, #3b82f6, #1d4ed8);
+  --div-flow-glow: radial-gradient(closest-side, rgba(59, 130, 246, 0.5), rgba(5, 7, 15, 0));
+  --div-flow-solid: #3b82f6;
 
-    --font-size-md: 1.18rem;
-    --font-size-lg: 1.35rem;
-    --font-size-xl: 1.6rem;
-    --font-size-2xl: 2.15rem;
-    --font-size-3xl: 2.7rem;
-    --font-size-4xl: 3.25rem;
-    --font-size-5xl: 4.1rem;
-  }
+  --div-secure-chip: linear-gradient(140deg, #34d399, #059669);
+  --div-secure-glow: radial-gradient(closest-side, rgba(52, 211, 153, 0.4), rgba(5, 7, 15, 0));
+  --div-secure-solid: #34d399;
+
+  --div-systems-chip: linear-gradient(140deg, #8b5cf6, #6d28d9);
+  --div-systems-glow: radial-gradient(closest-side, rgba(139, 92, 246, 0.5), rgba(5, 7, 15, 0));
+  --div-systems-solid: #8b5cf6;
+
+  --div-creative-chip: linear-gradient(140deg, #ec4899, #c026d3);
+  --div-creative-glow: radial-gradient(closest-side, rgba(236, 72, 153, 0.45), rgba(5, 7, 15, 0));
+  --div-creative-solid: #ec4899;
+
+  --div-ops-chip: linear-gradient(140deg, #fb923c, #ea580c);
+  --div-ops-glow: radial-gradient(closest-side, rgba(251, 146, 60, 0.42), rgba(5, 7, 15, 0));
+  --div-ops-solid: #fb923c;
 }
 
-/* Monitores Full HD (≥1680px) */
+/* ── Pantallas grandes ────────────────────────────────────────
+   El mockup ya usa clamp() en los títulos, así que aquí solo se
+   escala el cuerpo de texto para que no se vea diminuto en
+   monitores grandes.                                            */
 @media (min-width: 1680px) {
   :root {
-    --container-max: 1480px;
-    --container-wide: 1640px;
-    --container-padding: var(--space-8);
-
-    --font-size-base: 1.0625rem; /* 17px */
+    --font-size-base: 1.0625rem;
     --font-size-md: 1.2rem;
     --font-size-lg: 1.4rem;
-    --font-size-2xl: 2.25rem;
-    --font-size-3xl: 2.8rem;
-    --font-size-4xl: 3.45rem;
-    --font-size-5xl: 4.4rem;
-
-    --space-16: 4.5rem;
-    --space-20: 5.5rem;
-    --space-24: 7rem;
   }
 }
 
-/* Pantallas muy grandes / 4K (≥1920px) */
 @media (min-width: 1920px) {
   :root {
-    --container-max: 1560px;
-    --container-wide: 1720px;
-
-    --font-size-base: 1.125rem; /* 18px */
+    --font-size-base: 1.125rem;
     --font-size-md: 1.25rem;
     --font-size-lg: 1.45rem;
-    --font-size-2xl: 2.4rem;
-    --font-size-3xl: 2.95rem;
-    --font-size-4xl: 3.65rem;
-    --font-size-5xl: 4.75rem;
-
-    --space-24: 8rem;
   }
 }
 
 @media (max-width: 640px) {
   :root {
-    --container-padding: var(--space-4);
-    --navbar-height: 64px;
+    --navbar-height: 62px;
   }
 }

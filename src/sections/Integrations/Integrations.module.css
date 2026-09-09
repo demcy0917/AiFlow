@@ -1,0 +1,219 @@
+/* Banda oscura: alterna con Inteligencia, que va sobre el lienzo. */
+.section {
+  position: relative;
+  z-index: 5;
+  padding: var(--section-padding-y) 0;
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border-soft);
+  border-bottom: 1px solid var(--color-border-soft);
+  overflow: hidden;
+}
+
+/* Halo violeta detrás de los chips. */
+.glow {
+  position: absolute;
+  top: -140px;
+  right: -180px;
+  width: 720px;
+  height: 660px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(139, 92, 246, 0.16), rgba(5, 7, 15, 0) 70%);
+}
+
+.layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+/* ── Columna del mensaje ────────────────────────────────────── */
+
+.info {
+  min-width: 0;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-5);
+}
+
+.kickerLine {
+  width: 46px;
+  height: 2px;
+  flex: none;
+  border-radius: var(--radius-full);
+  background: var(--gradient-purple-magenta);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-section);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-title);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  text-wrap: pretty;
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+  max-width: 520px;
+  margin-bottom: var(--space-8);
+}
+
+/* ── Las tres promesas ──────────────────────────────────────── */
+
+/* Tres columnas EXPLICITAS, no flex-wrap: con wrap quedaban 2 + 1 y
+   esa fila coja se lee como accidente, no como decision. */
+.perks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.perk {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-right: var(--space-5);
+  min-width: 0;
+}
+
+/* Separador vertical entre promesas. Va como borde del elemento
+   siguiente para no dejar una línea suelta al final de la fila. */
+.perk + .perk {
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--color-border);
+}
+
+.perkIcon {
+  flex: none;
+  margin-top: 2px;
+  font-size: var(--font-size-base);
+  color: var(--accent);
+}
+
+.perkText {
+  min-width: 0;
+}
+
+.perkTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  margin-bottom: 3px;
+}
+
+.perkBody {
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--color-text-dim);
+}
+
+/* ── Chips de herramientas ──────────────────────────────────────
+   flex-wrap y no una rejilla: cada nombre mide distinto, así que
+   las filas salen desparejas por sí solas, como en el diseño. */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--gradient-card);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  transition: border-color var(--transition-base), color var(--transition-base),
+    transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -16px var(--accent-glow);
+}
+
+.chipIcon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: var(--font-size-sm);
+}
+
+/* ── Acentos ────────────────────────────────────────────────── */
+
+.cyan    { --accent: var(--color-cyan);    --accent-dim: var(--color-cyan-dim);    --accent-glow: var(--color-cyan-glow); }
+.blue    { --accent: var(--color-blue);    --accent-dim: var(--color-blue-dim);    --accent-glow: var(--color-blue-glow); }
+.purple  { --accent: var(--color-purple);  --accent-dim: var(--color-purple-dim);  --accent-glow: var(--color-purple-glow); }
+.magenta { --accent: var(--color-magenta); --accent-dim: var(--color-magenta-dim); --accent-glow: var(--color-magenta-glow); }
+.teal    { --accent: var(--color-teal);    --accent-dim: var(--color-teal-dim);    --accent-glow: var(--color-teal-glow); }
+.orange  { --accent: var(--color-orange);  --accent-dim: var(--color-orange-dim);  --accent-glow: var(--color-orange-glow); }
+.green   { --accent: var(--color-green);   --accent-dim: var(--color-green-dim);   --accent-glow: var(--color-green-glow); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  /* Apiladas: el separador vertical pasa a ser horizontal, si no
+     queda una raya suelta a la izquierda de cada promesa. */
+  .perks {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .perk {
+    padding-right: 0;
+  }
+
+  .perk + .perk {
+    padding-left: 0;
+    padding-top: var(--space-4);
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+  }
+
+  .chips {
+    gap: var(--space-3);
+  }
+
+  .chip {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-xs);
+  }
+}

@@ -2,29 +2,36 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-  border: 1px solid var(--glass-border);
+  min-width: 0;
+  background: var(--gradient-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition-slow), border-color var(--transition-slow),
-    box-shadow var(--transition-slow);
+    box-shadow var(--transition-slow), background var(--transition-slow);
   isolation: isolate;
 }
 
-/* Color accents */
+/* Acento por integrante: cada variante solo define las dos variables
+   y el resto de la tarjeta las consume. Así se agrega un color nuevo
+   con una línea. */
 .cyan    { --accent: var(--color-cyan);    --accent-glow: var(--color-cyan-glow);    }
 .purple  { --accent: var(--color-purple);  --accent-glow: var(--color-purple-glow);  }
 .blue    { --accent: var(--color-blue);    --accent-glow: var(--color-blue-glow);    }
 .magenta { --accent: var(--color-magenta); --accent-glow: var(--color-magenta-glow); }
+.teal    { --accent: var(--color-teal);    --accent-glow: var(--color-teal-glow);    }
+.orange  { --accent: var(--color-orange);  --accent-glow: var(--color-orange-glow);  }
 
-/* Animated glow border (hover) */
+/* Borde animado en hover. El truco: un degradado del tamaño de la
+   tarjeta al que se le recorta el centro con mask-composite, de modo
+   que solo sobrevive el anillo de 1.5px del contorno. */
 .borderGlow {
   position: absolute;
   inset: 0;
   border-radius: var(--radius-xl);
   padding: 1.5px;
-  background: linear-gradient(135deg, var(--color-cyan), var(--color-purple), var(--color-magenta), var(--color-blue));
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-blue), var(--color-magenta), var(--color-pink));
   background-size: 300% 300%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -38,7 +45,9 @@
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 44px rgba(22, 38, 63, 0.14), 0 0 32px var(--accent-glow);
+  background: var(--gradient-card-hover);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-card-hover), 0 0 38px -8px var(--accent-glow);
 }
 
 .card:hover .borderGlow {
@@ -52,7 +61,18 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Photo */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .borderGlow {
+    animation: none;
+  }
+}
+
+/* ── Foto ───────────────────────────────────────────────────── */
+
 .photoWrapper {
   position: relative;
   width: 100%;
@@ -73,7 +93,8 @@
   transform: scale(1.05);
 }
 
-/* Fallback (initials) when no photo */
+/* Respaldo cuando no hay foto: fondo oscuro teñido con el acento
+   del integrante, no un gris claro que rompería la banda. */
 .fallback {
   width: 100%;
   height: 100%;
@@ -81,44 +102,53 @@
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%),
-    linear-gradient(160deg, #f1f6f7, #e7eff1);
+    radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%),
+    linear-gradient(160deg, var(--color-bg-tertiary), var(--color-bg-secondary));
 }
 
 .fallbackInitials {
   font-family: var(--font-display);
-  font-size: 4rem;
-  font-weight: 900;
+  font-size: var(--font-size-5xl);
+  font-weight: 800;
+  letter-spacing: var(--tracking-title);
   color: var(--accent);
-  opacity: 0.9;
 }
 
-/* Overlay desactivado: la foto se muestra completa, sin degradado blanco */
+/* Velo inferior: funde el pie de la foto con la tarjeta y sostiene
+   la insignia. Arranca al 55% para no recortar el rostro. */
 .photoOverlay {
-  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(5, 7, 15, 0) 55%, rgba(5, 7, 15, 0.62));
 }
 
-/* Badge over photo */
+/* ── Insignia sobre la foto ─────────────────────────────────── */
+
 .badge {
   position: absolute;
   bottom: var(--space-4);
   left: var(--space-4);
   z-index: 2;
   padding: var(--space-1) var(--space-3);
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.12em;
-  color: var(--accent);
-  background: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  /* El acento crudo no llega al contraste mínimo a 10px sobre oscuro
+     (blue y magenta se quedan cortos); aclararlo lo sube sin perder
+     la identidad de color del integrante. */
+  color: color-mix(in srgb, var(--accent) 60%, #fff);
+  background: var(--glass-bg-strong);
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   border-radius: var(--radius-full);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  text-transform: uppercase;
 }
 
-/* Info */
+/* ── Información ────────────────────────────────────────────── */
+
 .info {
   position: relative;
   z-index: 1;
@@ -126,35 +156,41 @@
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-5) var(--space-6) var(--space-6);
-  margin-top: -1px;
-  background: #ffffff;
+  background: transparent;
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: var(--font-size-lg);
-  font-weight: 800;
-  line-height: 1.2;
-  color: var(--accent);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  /* El nombre va en texto primario, no en el acento: sobre la banda
+     oscura el azul y el magenta no alcanzan contraste a 18px. El
+     acento sigue presente en la insignia, el borde y el halo. */
+  color: var(--color-text-primary);
+  text-wrap: pretty;
 }
 
 .role {
+  font-family: var(--font-mono);
   font-size: var(--font-size-xs);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--color-text-secondary);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
 }
 
 .description {
   font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
   line-height: 1.6;
+  color: var(--color-text-tertiary);
   margin-top: var(--space-1);
 }
 
-/* Socials */
+/* ── Redes ──────────────────────────────────────────────────── */
+
 .socials {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-2);
   margin-top: var(--space-3);
 }
@@ -162,20 +198,21 @@
 .socialLink {
   width: 34px;
   height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-surface-2);
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
-  transition: all var(--transition-base);
+  transition: background var(--transition-base), border-color var(--transition-base),
+    color var(--transition-base), transform var(--transition-base);
 }
 
-.socialLink:hover {
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-  border-color: var(--accent);
+.socialLink:hover,
+.socialLink:focus-visible {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
   color: var(--accent);
   transform: translateY(-2px);
 }

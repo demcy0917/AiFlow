@@ -1,74 +1,66 @@
+/* Banda oscura: alterna con "Nosotros", que va justo antes sobre el
+   lienzo base, y con el CTA final que sigue. */
 .section {
-  padding: var(--space-24) 0;
   position: relative;
+  z-index: 5;
+  padding: var(--section-padding-y) 0;
   overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
 }
 
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.35), transparent);
-}
-
+/* Halo de marca detrás de la rejilla: azul a la izquierda, magenta a
+   la derecha, los dos extremos del degradado de SynQ. */
 .bgGlow {
   position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 600px;
-  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.06) 0%, transparent 65%);
+  inset: 0;
   pointer-events: none;
+  background:
+    radial-gradient(620px 480px at 12% 10%, rgba(59, 107, 255, 0.16), rgba(5, 7, 15, 0) 70%),
+    radial-gradient(560px 460px at 88% 78%, rgba(192, 38, 211, 0.13), rgba(5, 7, 15, 0) 70%);
+}
+
+/* El halo es un absoluto que cubre toda la banda; encabezado y
+   rejilla necesitan contexto propio para quedar por encima. */
+.head {
+  position: relative;
+  z-index: 2;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-8);
-  margin-top: var(--space-16);
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  margin-top: clamp(2.25rem, 4.5vw, 3.5rem);
 }
 
 .cardWrapper {
+  min-width: 0;
   animation: fadeInUp 0.6s ease both;
 }
 
-/* Desktop grande: se acota el ancho del grid para que las cards
-   no se vean tan grandes en pantallas amplias (~10-20% más pequeñas). */
+/* El escalonado es puro adorno: sin él las tarjetas igual aparecen. */
+@media (prefers-reduced-motion: reduce) {
+  .cardWrapper {
+    animation: none;
+  }
+}
+
+/* Con seis integrantes, auto-fit arma cuatro columnas en monitores
+   muy anchos y deja una fila de dos. Acotar el ancho fuerza 3 × 2. */
 @media (min-width: 1280px) {
   .grid {
-    max-width: 1240px;
-    margin-inline: auto;
-    gap: var(--space-6);
-  }
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .grid {
-    gap: var(--space-6);
-  }
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: var(--space-16) 0;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    max-width: 440px;
+    max-width: 1180px;
     margin-inline: auto;
   }
 }
 
-@media (max-width: 480px) {
-  .section {
-    padding: var(--space-12) 0;
-  }
+/* Entrada escalonada de las tarjetas. Definida aquí y no en una hoja
+   global: CSS Modules le pone hash al `animation-name` de este
+   archivo, y un keyframe externo nunca haría match. */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

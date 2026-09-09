@@ -12,6 +12,7 @@ function App() {
       <Navbar />
       <Home />
       <Footer />
+      {/* Asesor con IA: botón flotante disponible en toda la página. */}
       <ChatWidget />
     </>
   );

@@ -1,0 +1,246 @@
+/* Fondo transparente (queda el lienzo base): la sección de Equipo
+   que va justo después sí lleva banda oscura y así alternan. */
+.section {
+  position: relative;
+  z-index: 5;
+  /* 0.9 del padding estandar: la seccion es alta y no entraba de una
+     pantalla. Es el unico sitio del sitio que se aparta del ritmo
+     vertical comun, a proposito. */
+  padding: calc(var(--section-padding-y) * 0.9) 0;
+  overflow: hidden;
+}
+
+/* ── Encabezado centrado ────────────────────────────────────── */
+
+.head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto clamp(2.25rem, 4.5vw, 3.6rem);
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-section);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-title);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  margin-bottom: var(--space-5);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  line-height: 1.66;
+  color: var(--color-text-tertiary);
+  text-wrap: pretty;
+}
+
+/* ── Valores y escultura ────────────────────────────────────────
+   Tres columnas: valores, figura, valores. La del medio se dimensiona
+   con la figura y las laterales se reparten el resto por igual, así
+   los dos bloques de texto quedan simétricos respecto al centro. */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr) minmax(0, 1fr);
+  /* stretch y no center: las columnas toman el alto de la fila, que lo
+     marca la figura, y así los valores pueden repartirse a lo largo de
+     la escultura en vez de apelotonarse en el medio. */
+  align-items: stretch;
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  margin-bottom: clamp(2.25rem, 4.5vw, 3.6rem);
+}
+
+.col {
+  display: grid;
+  align-content: space-evenly;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* Separador entre los dos valores de cada columna, como en el diseño.
+   Va como borde del segundo y no como elemento aparte para no meter
+   nodos vacíos dentro de la lista. */
+.col .value + .value {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+}
+
+.colLeft {
+  grid-column: 1;
+}
+
+.colRight {
+  grid-column: 3;
+}
+
+.value {
+  min-width: 0;
+}
+
+.valueIcon {
+  display: block;
+  margin-bottom: var(--space-4);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.valueTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: var(--space-3);
+  text-wrap: pretty;
+}
+
+.valueBody {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+  text-wrap: pretty;
+}
+
+/* ── Escultura ──────────────────────────────────────────────────
+   La imagen trae su propio fondo oscuro (#02050d a #040710), que
+   coincide con el lienzo de la sección (#05070f) dentro de 3 puntos
+   por canal: se funde sin borde visible. Por eso no lleva halo en
+   CSS — sobre un fondo opaco solo asomaría como un aro. */
+
+.figure {
+  position: relative;
+  grid-column: 2;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* aspect-ratio + height auto reservan el hueco antes de la descarga:
+   sin eso la sección daría un salto de alto al cargar la imagen. */
+.figureImg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  aspect-ratio: 760 / 780;
+  object-fit: contain;
+  /* El fondo del archivo (#070c18 en las esquinas) no es exactamente el
+     lienzo (#05070f): hasta 9 puntos de azul de diferencia, que sobre
+     casi negro se alcanzan a leer como un rectangulo. Estas dos mascaras
+     desvanecen el borde en los cuatro lados, asi no hay costura posible.
+     Donde no haya soporte de mask-composite se ignora y queda como
+     estaba: el borde tenue, nunca algo roto. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* ── Pie ────────────────────────────────────────────────────── */
+
+.foot {
+  text-align: center;
+  padding-top: clamp(1.8rem, 3.6vw, 2.7rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.footTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: var(--space-3);
+}
+
+.footBody {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* ── Acentos ────────────────────────────────────────────────── */
+
+.cyan    { --accent: var(--color-cyan); }
+.blue    { --accent: var(--color-blue); }
+.purple  { --accent: var(--color-purple); }
+.magenta { --accent: var(--color-magenta); }
+.teal    { --accent: var(--color-teal); }
+.orange  { --accent: var(--color-orange); }
+.green   { --accent: var(--color-green); }
+
+/* ── Responsive ─────────────────────────────────────────────────
+   Al perder las tres columnas la figura deja de estar "en medio" de
+   nada, así que sube al primer lugar y los cuatro valores quedan
+   debajo en dos columnas. Se recolocan con grid-row porque el orden
+   del DOM (izquierda, figura, derecha) es el de escritorio. */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  .col {
+    align-content: start;
+  }
+
+  .figure {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .colLeft {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .colRight {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .figureImg {
+    max-width: 270px;
+  }
+}
+
+@media (max-width: 560px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .colLeft {
+    grid-row: 2;
+  }
+
+  /* En una columna las dos listas quedan una encima de otra, así que
+     el segundo bloque necesita el mismo separador que lleva por dentro
+     para que los cuatro valores se lean con el mismo ritmo. */
+  .colRight {
+    grid-column: 1;
+    grid-row: 3;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+  }
+
+  .figureImg {
+    max-width: 215px;
+  }
+}

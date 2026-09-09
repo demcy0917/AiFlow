@@ -3,9 +3,16 @@ import type { ReactNode } from 'react';
 import { Button } from '../../components/common/Button';
 import { Container } from '../../components/common/Container';
 import { SectionTitle } from '../../components/common/SectionTitle';
+import { services } from '../../data/services';
+import {
+  EMAIL,
+  MAILTO_URL,
+  PHONE_DISPLAY,
+  WHATSAPP_PLAIN_URL,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+} from '../../data/site';
 import styles from './Contact.module.css';
-
-const WHATSAPP_NUMBER = '50233658428';
 
 interface ContactOption {
   icon: ReactNode;
@@ -15,9 +22,9 @@ interface ContactOption {
 }
 
 const contactOptions: ContactOption[] = [
-  { icon: <i className="fa-solid fa-envelope" />,       label: 'Email',     value: 'demcycode@gmail.com',         href: 'mailto:demcycode@gmail.com' },
-  { icon: <i className="fa-brands fa-whatsapp" />,      label: 'WhatsApp',  value: '+502 3365-8428',             href: `https://wa.me/${WHATSAPP_NUMBER}` },
-  { icon: <i className="fa-brands fa-instagram" />,     label: 'Instagram', value: '@demcy.ia',                  href: 'https://www.instagram.com/demcy.ia' },
+  { icon: <i className="fa-solid fa-envelope" />,   label: 'Email',     value: EMAIL,            href: MAILTO_URL },
+  { icon: <i className="fa-brands fa-whatsapp" />,  label: 'WhatsApp',  value: PHONE_DISPLAY,    href: WHATSAPP_PLAIN_URL },
+  { icon: <i className="fa-brands fa-instagram" />, label: 'Instagram', value: INSTAGRAM_HANDLE, href: INSTAGRAM_URL },
 ];
 
 interface FormState {
@@ -64,7 +71,7 @@ export function Contact() {
     <section id="contacto" className={styles.section} aria-label="Contacto">
       <Container>
         <div className={styles.layout}>
-          {/* Info column */}
+          {/* Columna de información */}
           <div className={styles.info}>
             <SectionTitle
               tag="Contacto"
@@ -82,8 +89,8 @@ export function Contact() {
                     target={c.href.startsWith('http') ? '_blank' : undefined}
                     rel="noreferrer"
                   >
-                    <span className={styles.contactIcon}>{c.icon}</span>
-                    <div>
+                    <span className={styles.contactIcon} aria-hidden="true">{c.icon}</span>
+                    <div className={styles.contactText}>
                       <span className={styles.contactLabel}>{c.label}</span>
                       <span className={styles.contactValue}>{c.value}</span>
                     </div>
@@ -93,11 +100,11 @@ export function Contact() {
             </ul>
           </div>
 
-          {/* Form */}
+          {/* Formulario */}
           <div className={styles.formWrapper}>
             {status === 'success' ? (
               <div className={styles.successState}>
-                <span className={styles.successIcon}>✓</span>
+                <span className={styles.successIcon} aria-hidden="true">✓</span>
                 <h3 className={styles.successTitle}>¡Mensaje enviado!</h3>
                 <p className={styles.successText}>
                   Nos pondremos en contacto contigo en menos de 24 horas.
@@ -143,10 +150,11 @@ export function Contact() {
                     value={form.service} onChange={handleChange}
                   >
                     <option value="" disabled>Selecciona un servicio</option>
-                    <option>Automatizaciones</option>
-                    <option>Chatbots con IA</option>
-                    <option>Sistema Empresarial</option>
-                    <option>Software a la Medida</option>
+                    {/* Las opciones salen del catálogo real de servicios: si cambia
+                        la lista, el formulario no queda desfasado. */}
+                    {services.map((s) => (
+                      <option key={s.num} value={s.title}>{s.title}</option>
+                    ))}
                     <option>No estoy seguro, necesito orientación</option>
                   </select>
                 </div>

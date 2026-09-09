@@ -23,3 +23,10 @@ Thumbs.db
 
 # Logos en revisión — aún no definidos, no van a producción ni al repo
 _logos-pendientes/
+
+# Material fuente del rediseño SynQ (mockups de Claude Design, PSD/PNG grandes).
+# Los assets que sí se usan viven en public/brand/.
+_disenio-fuente/
+
+# Previsualización local del correo de contacto (npm run email:preview)
+.preview/

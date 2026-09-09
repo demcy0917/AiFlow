@@ -1,496 +1,225 @@
-/* ── Section wrapper ──────────────────────────────────────── */
+/* Fondo transparente (queda el lienzo base #05070f): alterna con
+   la banda de métricas que va justo antes, que sí es #070a14. */
 .section {
-  padding: var(--space-24) 0;
   position: relative;
+  z-index: 5;
+  padding: var(--section-padding-y) 0;
   overflow: hidden;
 }
 
-.section::before {
-  content: '';
+/* Halo cyan: el color de la división Intelligence. */
+.glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.4), transparent);
-}
-
-.bgGlow {
-  position: absolute;
-  top: 10%;
-  right: -15%;
-  width: 700px;
+  top: -180px;
+  right: -220px;
+  width: 760px;
   height: 700px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, transparent 65%);
   pointer-events: none;
+  background: radial-gradient(closest-side, rgba(34, 211, 238, 0.16), rgba(5, 7, 15, 0) 70%);
 }
 
-/* ── Main dashboard card ─────────────────────────────────── */
-.dashCard {
-  margin-top: var(--space-16);
-  background: #ffffff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  box-shadow: 0 18px 50px rgba(22, 38, 63, 0.10);
-  animation: fadeInUp 0.8s ease both;
-}
+/* ── Encabezado ─────────────────────────────────────────────── */
 
-/* Card header */
-.cardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.cardHeaderLeft {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.liveIndicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
-  animation: pulseDot 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.cardTitle {
-  font-family: var(--font-display);
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.realtime {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-}
-
-.previewBtn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  cursor: default;
-}
-
-/* KPI row */
-.kpiRow {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
-}
-
-.kpiCard {
-  padding: var(--space-4);
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  transition: border-color var(--transition-base);
-}
-
-.kpiCard:hover {
-  border-color: var(--color-cyan);
-}
-
-.kpiLabel {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.kpiValue {
-  font-family: var(--font-display);
-  font-size: var(--font-size-2xl);
-  font-weight: 800;
-  color: var(--color-text-primary);
-  line-height: 1.1;
-}
-
-.kpiDelta {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-}
-
-.positive { color: #16a34a; }
-.negative { color: #dc2626; }
-
-/* Chart row */
-.chartRow {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: var(--space-4);
-  min-height: 220px;
-}
-
-/* Bar chart */
-.barChartCard {
-  padding: var(--space-5);
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.barChartHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.barChartTitle {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.monthlyBadge {
-  padding: 2px var(--space-3);
-  background: var(--color-cyan-dim);
-  border: 1px solid rgba(20, 184, 166, 0.35);
-  border-radius: var(--radius-full);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--color-cyan);
-}
-
-.barChart {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  padding-bottom: var(--space-4);
+.head {
   position: relative;
-}
-
-/* Horizontal grid lines */
-.barChart::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 25%;
-  height: 1px;
-  background: rgba(22, 38, 63, 0.06);
-}
-.barChart::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 60%;
-  height: 1px;
-  background: rgba(22, 38, 63, 0.06);
-}
-
-.barCol {
-  flex: 1;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  height: 140px;
-  justify-content: flex-end;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
 }
 
-.bar {
-  width: 100%;
-  background: linear-gradient(to top, #14b8a6, #5eead4);
-  border-radius: 3px 3px 0 0;
-  opacity: 0.9;
-  transition: height 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.barLabel {
-  font-size: 10px;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-  position: absolute;
-  bottom: 0;
-}
-
-/* Right column */
-.rightCol {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-/* Donut chart */
-.donutCard {
-  flex: 1;
-  padding: var(--space-4);
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
+.chip {
+  width: 54px;
+  height: 54px;
+  flex: none;
   border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+  display: grid;
+  place-items: center;
+  background: var(--div-intelligence-chip);
+  box-shadow: var(--shadow-chip);
 }
 
-.donutHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+.chipIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.headText {
+  min-width: 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
   font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-section);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-title);
+  color: var(--color-text-primary);
+  text-wrap: pretty;
+  max-width: 780px;
+}
+
+/* ── Distribución ───────────────────────────────────────────── */
+
+/* Dos columnas y DOS filas.
+   La altura de la fila 1 la fija .info (parrafo + tarjetas). El chat
+   vive en esa misma fila con align-self: stretch, asi que su borde
+   inferior cae exactamente donde termina la ultima tarjeta, sin
+   depender de una altura fija en pixeles.
+   La nota baja a la fila 2 de la columna izquierda: visualmente queda
+   donde siempre estuvo. */
+.layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  column-gap: clamp(2rem, 4vw, 4rem);
+  row-gap: var(--space-8);
+  align-items: start;
+}
+
+.info {
+  min-width: 0;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.lead {
+  font-size: var(--font-size-base);
+  line-height: 1.66;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 520px;
+}
+
+.capabilities {
+  display: grid;
+  gap: var(--space-4);
+  /* Sin margen inferior a proposito: la separacion con la nota la da
+     ahora el row-gap de .layout. Con el margen, .info creceria 2rem
+     de mas y el chat ya no alinearia con la ultima tarjeta. */
+}
+
+.capability {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--gradient-card);
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+
+.capability:hover {
+  border-color: var(--color-border-hover);
+  transform: translateX(4px);
+}
+
+.capabilityIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--color-cyan-dim);
+  color: var(--color-cyan);
+  font-size: var(--font-size-base);
+}
+
+.capabilityTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.capabilityBody {
+  font-size: var(--font-size-sm);
+  line-height: 1.58;
+  color: var(--color-text-tertiary);
+}
+
+.note {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
   color: var(--color-text-muted);
+}
+
+.note i {
+  color: var(--color-cyan);
+  margin-top: 3px;
+  flex: none;
+}
+
+.note strong {
+  color: var(--color-text-primary);
   font-weight: 600;
 }
 
-.donutWrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
+.chatCol {
+  min-width: 0;
+  grid-column: 2;
+  grid-row: 1;
+  /* Se estira a la altura de la fila, que la marca .info. */
+  align-self: stretch;
 }
 
-.donutSvg {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
-}
+/* ── Responsive ─────────────────────────────────────────────── */
 
-.donutArc {
-  transition: stroke-dasharray 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.donutLegend {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.legendItem {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
-.legendDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* AI card */
-.aiCard {
-  padding: var(--space-4);
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.aiHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.aiIcon {
-  color: var(--color-purple);
-  font-size: var(--font-size-sm);
-  animation: glowPulse 2.5s ease-in-out infinite;
-}
-
-.aiTitle {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.aiMetrics {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.aiMetric {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.aiMetricLabel {
-  font-size: 10px;
-  color: var(--color-text-muted);
-}
-
-.aiMetricValue {
-  font-family: var(--font-display);
-  font-size: var(--font-size-base);
-  font-weight: 800;
-  color: #16a34a;
-}
-
-.confidenceBar {
-  height: 4px;
-  background: var(--color-surface-3);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.confidenceFill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-purple), var(--color-cyan));
-  border-radius: var(--radius-full);
-  transition: width 1.2s ease 0.4s;
-}
-
-/* ── Feature cards ─────────────────────────────────────────── */
-.featureGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
-  margin-top: var(--space-8);
-}
-
-.featureCard {
-  padding: var(--space-6) var(--space-8);
-  background: #ffffff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: var(--space-4);
-  transition: all var(--transition-slow);
-  animation: fadeInUp 0.6s ease both;
-}
-
-.featureCard:hover {
-  transform: translateY(-4px);
-  background: #ffffff;
-  border-color: rgba(22, 38, 63, 0.14);
-  box-shadow: 0 12px 32px rgba(22, 38, 63, 0.10);
-}
-
-/* Icon wrapper */
-.featureIconWrapper {
-  width: 52px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-lg);
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-/* Icon color variants */
-.icon_cyan    { background: linear-gradient(135deg, rgba(20,184,166,0.20), rgba(59,130,246,0.18)); color: var(--color-cyan);    border: 1px solid rgba(20,184,166,0.3);   }
-.icon_purple  { background: linear-gradient(135deg, rgba(123,47,255,0.3),  rgba(255,0,170,0.2));  color: var(--color-purple);  border: 1px solid rgba(123,47,255,0.35); }
-.icon_teal    { background: linear-gradient(135deg, rgba(0,200,180,0.25),  rgba(0,245,255,0.15)); color: #00c8b4;              border: 1px solid rgba(0,200,180,0.3);  }
-.icon_orange  { background: linear-gradient(135deg, rgba(255,140,0,0.25),  rgba(200,80,0,0.2));   color: #ff8c00;              border: 1px solid rgba(255,140,0,0.3);  }
-.icon_red     { background: linear-gradient(135deg, rgba(180,30,60,0.35),  rgba(120,0,40,0.3));   color: #e05070;              border: 1px solid rgba(180,30,60,0.4);  }
-
-.featureTitle {
-  font-family: var(--font-display);
-  font-size: var(--font-size-md);
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.featureDesc {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  line-height: 1.65;
-}
-
-/* Desktop grande: se acota el ancho de la sección para que no se
-   vea tan ancha (~20% más angosta en pantallas amplias). Centrado. */
-@media (min-width: 1280px) {
-  .dashCard,
-  .featureGrid {
-    max-width: 1180px;
-    margin-inline: auto;
-  }
-}
-
-/* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .chartRow {
+  .layout {
     grid-template-columns: 1fr;
   }
 
-  .rightCol {
-    flex-direction: row;
+  /* Con una sola columna hay que soltar la colocacion explicita: un
+     grid-column: 2 crearia una segunda columna fantasma. El orden del
+     DOM (texto, nota, chat) ya es el correcto para leer en vertical. */
+  .info,
+  .note,
+  .chatCol {
+    grid-column: auto;
+    grid-row: auto;
   }
 
-  .donutCard, .aiCard {
-    flex: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: var(--space-16) 0;
-  }
-
-  .kpiRow {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .featureGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .rightCol {
-    flex-direction: column;
+  .chatCol {
+    position: static;
+    align-self: auto;
   }
 }
 
-@media (max-width: 480px) {
-  .section {
-    padding: var(--space-12) 0;
+@media (max-width: 640px) {
+  .head {
+    gap: var(--space-4);
   }
 
-  .kpiRow {
-    grid-template-columns: 1fr 1fr;
+  .chip {
+    width: 44px;
+    height: 44px;
   }
 
-  .kpiValue {
-    font-size: var(--font-size-xl);
-  }
-
-  .dashCard {
-    padding: var(--space-3);
-    gap: var(--space-3);
-  }
-
-  .featureCard {
-    padding: var(--space-5);
-  }
-
-  .featureGrid {
-    margin-top: var(--space-5);
+  .chipIcon {
+    width: 23px;
+    height: 23px;
   }
 }

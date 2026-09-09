@@ -15,6 +15,21 @@
   "observability": {
     "enabled": true
   },
+  // Remitente del formulario de contacto. Va aqui y no en el codigo para
+  // que verificar el dominio en Resend sea cambiar una linea.
+  //
+  // PENDIENTE: descomentar DESPUES de verificar aiflowgt.com en
+  // resend.com/domains. Mientras siga comentado, el Worker usa el
+  // remitente de prueba de Resend, que solo entrega al dueno de la cuenta
+  // (hoy demcycode@gmail.com) y rechaza todo lo demas con 403.
+  //
+  // El dominio ya esta en Cloudflare, asi que los registros que pida
+  // Resend se agregan en su panel de DNS. Ponerlos como "DNS only"
+  // (nube gris), nunca proxied.
+  //
+  "vars": {
+    "CONTACT_FROM": "SynQ Corporation <contacto@aiflowgt.com>"
+  },
   // Rate limiting nativo del borde, por IP. No usa KV, así que no hay costo
   // de escrituras ni latencia extra. El período solo admite 10 o 60 segundos.
   "unsafe": {

@@ -1,57 +1,306 @@
+/* Banda oscura: alterna con Ecosistema, que va sobre el lienzo base. */
 .section {
-  padding: var(--space-24) 0;
   position: relative;
+  z-index: 5;
+  padding: var(--section-padding-y) 0;
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border-soft);
+  border-bottom: 1px solid var(--color-border-soft);
 }
 
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.4), transparent);
+/* ── Encabezado ─────────────────────────────────────────────── */
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-8);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
+
+.headText {
+  min-width: 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-cyan);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-section);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-title);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  text-wrap: pretty;
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+  max-width: 620px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.badge i {
+  color: var(--color-cyan);
+}
+
+/* ── Rejilla 2 + 3 ──────────────────────────────────────────────
+   Seis columnas: las dos primeras tarjetas ocupan 3 cada una y las
+   tres de abajo ocupan 2. Con auto-fit no hay forma de pedir esta
+   asimetría; con columnas explícitas ambas filas quedan llenas. */
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-6);
-  margin-top: var(--space-16);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-5);
 }
 
-.cardWrapper {
-  animation: fadeInUp 0.6s ease both;
+.card {
+  grid-column: span 2;
+  min-height: 360px;
 }
 
-/* Desktop grande: mismo ancho de contenido que las demás secciones. */
-@media (min-width: 1280px) {
-  .grid {
-    max-width: 1180px;
-    margin-inline: auto;
-  }
+/* Las dos de arriba: más anchas y más bajas que las de abajo. */
+.card:nth-child(1),
+.card:nth-child(2) {
+  grid-column: span 3;
+  min-height: 320px;
 }
+
+/* ── Tarjeta ────────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  /* Fondo propio bajo la imagen: si esta tarda o falla, la tarjeta
+     sigue siendo oscura y el texto se lee igual. */
+  background: var(--color-bg-tertiary);
+  transition: border-color var(--transition-base), transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px -24px var(--accent);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .bg {
+  transform: scale(1.04);
+}
+
+/* Velo de contraste. Pesa sobre la izquierda y el pie, que es donde
+   va el texto, y suelta la esquina superior derecha para que la
+   imagen se vea, igual que en el diseño. */
+.veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(5, 7, 15, 0.94) 12%, rgba(5, 7, 15, 0.1) 78%),
+    linear-gradient(to top, rgba(5, 7, 15, 0.92) 4%, rgba(5, 7, 15, 0.1) 58%);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-6);
+}
+
+/* ── Numeración ─────────────────────────────────────────────── */
+
+.num {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.72);
+  /* auto empuja el bloque de texto al fondo de la tarjeta. */
+  margin-bottom: auto;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* ── Texto ──────────────────────────────────────────────────── */
+
+/* Acotado para que el texto viva sobre la zona velada de la
+   izquierda y no invada la parte clara de la foto.
+
+   En px y no en ch: la unidad ch se calcula sobre el font-size de
+   ESTE elemento (16px), no sobre el del título, así que 30ch daban
+   ~240px y partían "Sistemas y automatización" en dos líneas. */
+.text {
+  max-width: 340px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: var(--space-4);
+  text-shadow: 0 2px 14px rgba(5, 7, 15, 0.95);
+}
+
+/* Segunda línea del título, en peso fino. */
+.cardSubtitle {
+  display: block;
+  margin-top: 4px;
+  font-weight: 300;
+  font-size: 0.78em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cardBody {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: rgba(232, 236, 248, 0.88);
+  margin-bottom: var(--space-5);
+  max-width: 34ch;
+  text-shadow: 0 1px 10px rgba(5, 7, 15, 0.95);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--accent);
+  transition: gap var(--transition-base);
+}
+
+.cta i {
+  font-size: 0.8em;
+}
+
+.cta:hover {
+  gap: var(--space-3);
+}
+
+/* ── Acentos ────────────────────────────────────────────────── */
+
+.cyan    { --accent: var(--color-cyan); }
+.blue    { --accent: var(--color-blue); }
+.purple  { --accent: var(--color-purple); }
+.magenta { --accent: var(--color-magenta); }
+.teal    { --accent: var(--color-teal); }
+.orange  { --accent: var(--color-orange); }
+.green   { --accent: var(--color-green); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 1100px) {
+  /* Dos por fila. La quinta queda sola y se centra ocupando las dos
+     columnas del medio, para que la última fila no quede coja. */
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .card,
+  .card:nth-child(1),
+  .card:nth-child(2) {
+    grid-column: span 2;
+    min-height: 340px;
+  }
+
+  .card:nth-child(5) {
+    grid-column: 2 / span 2;
   }
 }
 
-@media (max-width: 768px) {
-  .section {
-    padding: var(--space-16) 0;
+@media (max-width: 900px) {
+  .head {
+    flex-direction: column;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card,
+  .card:nth-child(1),
+  .card:nth-child(2),
+  .card:nth-child(5) {
+    grid-column: 1;
+    min-height: 300px;
+  }
+
+  /* En una columna angosta el texto sí puede ocupar todo el ancho:
+     el velo cubre la tarjeta entera. */
+  .text {
+    max-width: none;
+  }
+
+  .veil {
+    background:
+      linear-gradient(to right, rgba(5, 7, 15, 0.94) 30%, rgba(5, 7, 15, 0.45) 100%),
+      linear-gradient(to top, rgba(5, 7, 15, 0.92) 4%, rgba(5, 7, 15, 0.15) 62%);
   }
 }
 
-@media (max-width: 480px) {
-  .section {
-    padding: var(--space-12) 0;
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .bg {
+    transform: none;
   }
 }

@@ -1,5 +1,13 @@
 @import './variables.css';
-@import './animations.css';
+
+/* Los @keyframes NO viven en un archivo global compartido.
+   ───────────────────────────────────────────────────────────────
+   CSS Modules reescribe el `animation-name` de cada .module.css a
+   un nombre con hash. Si los keyframes están en una hoja global,
+   ese nombre nunca hace match y la animación no corre — sin error,
+   sin aviso, simplemente no pasa nada.
+   Por eso cada animación se declara dentro del .module.css que la
+   usa: así el nombre se le aplica el mismo hash en los dos lados. */
 
 /* Reset & Base */
 *, *::before, *::after {
@@ -11,6 +19,11 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* El navbar es sticky: sin esto los anclajes dejan el título debajo. */
+  scroll-padding-top: calc(var(--navbar-height) + var(--space-4));
+  background-color: var(--color-bg-primary);
+  /* Evita que el "rebote" del scroll muestre una franja blanca. */
+  color-scheme: dark;
 }
 
 body {
@@ -23,13 +36,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Halos ambientales fijos: dan profundidad al fondo plano sin
+   pesar nada. Van detrás de todo y no capturan clics. */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 15% 5%, rgba(20, 184, 166, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 70% at 85% 90%, rgba(59, 130, 246, 0.05) 0%, transparent 55%);
+    radial-gradient(ellipse 70% 55% at 12% 0%, rgba(59, 107, 255, 0.16) 0%, transparent 68%),
+    radial-gradient(ellipse 60% 60% at 92% 12%, rgba(192, 38, 211, 0.12) 0%, transparent 66%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(34, 211, 238, 0.07) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -63,15 +79,16 @@ ul, ol {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-secondary);
+  background: var(--color-bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-cyan-dim);
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid var(--color-bg-primary);
   border-radius: var(--radius-full);
 }
 
@@ -79,10 +96,16 @@ ul, ol {
   background: var(--color-cyan);
 }
 
+/* Firefox */
+* {
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  scrollbar-width: thin;
+}
+
 /* Selection */
 ::selection {
-  background: var(--color-cyan-dim);
-  color: var(--color-cyan);
+  background: rgba(34, 211, 238, 0.28);
+  color: #fff;
 }
 
 /* Focus visible */
@@ -92,15 +115,28 @@ ul, ol {
   border-radius: var(--radius-sm);
 }
 
-/* Gradient text utility */
+/* ── Utilidades ──────────────────────────────────────────────── */
+
+/* Texto con el degradado de marca. */
 .gradient-text {
   background: var(--gradient-text);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-/* Glassmorphism utility */
+/* Kicker: la etiqueta monoespaciada en mayúsculas que abre cada
+   sección ("ECOSISTEMA SYNQ", "PROCESO", …). */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
 .glass {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -115,7 +151,6 @@ ul, ol {
   border: 1px solid var(--glass-border);
 }
 
-/* Neon line / divider */
 .neon-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-cyan), transparent);
@@ -133,4 +168,17 @@ ul, ol {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Respeta la preferencia del sistema de reducir movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

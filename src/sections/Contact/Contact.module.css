@@ -1,35 +1,27 @@
+/* Banda oscura: cierra la página antes del pie y separa el
+   formulario del lienzo base. */
 .section {
-  padding: var(--space-24) 0;
   position: relative;
+  z-index: 5;
+  padding: var(--section-padding-y) 0;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
 }
 
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.4), transparent);
-}
-
+/* Las dos columnas se apilan solas cuando no caben; sin media query.
+   El min() evita que el mínimo de 320px desborde en pantallas de
+   320px de ancho, donde el Container deja menos espacio útil. */
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-16);
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: clamp(2.5rem, 5vw, 4rem);
   align-items: start;
 }
 
-/* Desktop grande: mismo ancho de contenido que las demás secciones. */
-@media (min-width: 1280px) {
-  .layout {
-    max-width: 1180px;
-    margin-inline: auto;
-  }
-}
+/* ── Información ────────────────────────────────────────────── */
 
-/* Info */
 .info {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-10);
@@ -47,60 +39,68 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--gradient-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   text-decoration: none;
-  transition: all var(--transition-base);
+  transition: border-color var(--transition-base), background var(--transition-base),
+    transform var(--transition-base);
 }
 
 .contactItem:hover {
-  background: var(--color-surface-2);
-  border-color: rgba(20, 184, 166, 0.35);
+  background: var(--gradient-card-hover);
+  border-color: var(--color-border-hover);
   transform: translateX(4px);
 }
 
 .contactIcon {
-  font-size: 1.1rem;
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-cyan-dim);
+  flex: none;
+  display: grid;
+  place-items: center;
   border-radius: var(--radius-md);
-  flex-shrink: 0;
+  background: var(--color-cyan-dim);
   color: var(--color-cyan);
 }
 
 .contactIcon i {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   line-height: 1;
+}
+
+/* El correo es una sola palabra larga: sin esto, empuja la tarjeta
+   fuera de la pantalla en móviles angostos. */
+.contactText {
+  min-width: 0;
 }
 
 .contactLabel {
   display: block;
+  font-family: var(--font-mono);
   font-size: var(--font-size-xs);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-cyan);
+  margin-bottom: 3px;
 }
 
 .contactValue {
   display: block;
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
-/* Form */
+/* ── Formulario ─────────────────────────────────────────────── */
+
 .formWrapper {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  min-width: 0;
+  background: var(--gradient-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
-  padding: var(--space-10);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  box-shadow: var(--shadow-card);
 }
 
 .form {
@@ -111,11 +111,12 @@
 
 .formRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
   gap: var(--space-4);
 }
 
 .field {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -141,43 +142,50 @@
 }
 
 .input::placeholder {
-  color: var(--color-text-muted);
+  color: var(--color-text-dim);
 }
 
 .input:focus {
   border-color: var(--color-cyan);
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+  box-shadow: 0 0 0 3px var(--color-cyan-dim);
 }
 
+/* La flecha va incrustada como data-URI, así que su color no puede
+   salir de una variable: es el valor de --color-text-muted a mano. */
 .select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2351607a' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238ea0c4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
+  padding-right: var(--space-10);
 }
 
+/* En Windows el desplegable nativo usa fondo blanco del sistema:
+   sin esto, el texto claro quedaría invisible al abrirlo. */
 .select option {
-  background: #ffffff;
+  background: var(--color-bg-secondary);
   color: var(--color-text-primary);
 }
 
 .textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 110px;
+  line-height: 1.6;
 }
 
-/* Error message */
 .errorMsg {
   font-size: var(--font-size-sm);
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.08);
-  border: 1px solid rgba(255, 107, 107, 0.25);
+  line-height: 1.55;
+  color: var(--color-pink);
+  background: var(--color-pink-dim);
+  border: 1px solid var(--color-pink-glow);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
 }
 
-/* Success state */
+/* ── Estado de éxito ────────────────────────────────────────── */
+
 .successState {
   display: flex;
   flex-direction: column;
@@ -185,71 +193,59 @@
   justify-content: center;
   gap: var(--space-4);
   text-align: center;
-  padding: var(--space-16) var(--space-8);
+  padding: var(--space-16) var(--space-6);
 }
 
 .successIcon {
   width: 64px;
   height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   background: var(--color-cyan-dim);
-  border: 2px solid var(--color-cyan);
+  border: 1px solid var(--color-cyan);
   border-radius: var(--radius-full);
-  font-size: 1.5rem;
+  font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-cyan);
-  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.25);
-  animation: glowPulse 2s ease-in-out infinite;
+  animation: glowPulse 2.5s ease-in-out infinite;
 }
 
 .successTitle {
   font-family: var(--font-display);
   font-size: var(--font-size-xl);
   font-weight: 700;
+  letter-spacing: var(--tracking-title);
   color: var(--color-text-primary);
 }
 
 .successText {
   font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+  max-width: 380px;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: 1fr;
-    gap: var(--space-12);
-  }
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: var(--space-16) 0;
+@media (prefers-reduced-motion: reduce) {
+  .successIcon {
+    animation: none;
   }
 }
 
 @media (max-width: 640px) {
-  .formRow {
-    grid-template-columns: 1fr;
-  }
-
-  .formWrapper {
-    padding: var(--space-6);
-  }
-}
-
-@media (max-width: 480px) {
-  .section {
-    padding: var(--space-12) 0;
-  }
-
-  .formWrapper {
-    padding: var(--space-5) var(--space-4);
-  }
-
   .info {
     gap: var(--space-6);
   }
+
+  .successState {
+    padding: var(--space-12) var(--space-4);
+  }
+}
+
+/* Halo del check de "mensaje enviado". Definido aquí y no en una
+   hoja global: CSS Modules le pone hash al `animation-name` de este
+   archivo, y un keyframe externo nunca haría match — la animación
+   simplemente no correría, sin dar ningún error. */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(34, 211, 238, 0.25); }
+  50%      { box-shadow: 0 0 28px rgba(34, 211, 238, 0.45), 0 0 60px rgba(34, 211, 238, 0.15); }
 }

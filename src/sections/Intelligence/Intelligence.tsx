@@ -1,240 +1,93 @@
-import { useInView } from '../../hooks/useInView';
-import { useCountUp } from '../../hooks/useCountUp';
 import { Container } from '../../components/common/Container';
-import { SectionTitle } from '../../components/common/SectionTitle';
+import { ChatPanel } from './ChatPanel';
+import { BRAND } from '../../data/site';
 import styles from './Intelligence.module.css';
 
-/* ── Static data ─────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   SYNQ INTELLIGENCE
+   ───────────────────────────────────────────────────────────────
+   Vitrina de la división. El panel de la derecha reproduce una
+   conversación de ejemplo en bucle; el asesor REAL es el widget
+   flotante que se abre con el botón de abajo a la derecha.
+   ═══════════════════════════════════════════════════════════════ */
 
-interface KpiDef {
-  label: string;
-  end: number;
-  decimals: number;
-  prefix: string;
-  suffix: string;
-  delta: string;
-  positive: boolean;
-}
-
-const kpis: KpiDef[] = [
-  { label: 'Ventas del Mes',      end: 847,  decimals: 0, prefix: '$', suffix: 'K', delta: '+12.5%', positive: true  },
-  { label: 'Margen Bruto',        end: 34.2, decimals: 1, prefix: '',  suffix: '%', delta: '+2.1%',  positive: true  },
-  { label: 'Rotación Inventario', end: 8.4,  decimals: 1, prefix: '',  suffix: 'x', delta: '+0.8',   positive: true  },
-  { label: 'Días de Cobro',       end: 28,   decimals: 0, prefix: '',  suffix: '',  delta: '-3',     positive: true  },
+const capabilities = [
+  {
+    icon: 'fa-solid fa-comments',
+    title: 'Atiende y califica',
+    body: 'Conversa con el visitante, entiende su problema y separa a los curiosos de los prospectos reales.',
+  },
+  {
+    icon: 'fa-solid fa-brain',
+    title: 'Conoce tu negocio',
+    body: 'Responde con el contexto de tu operación: servicios, procesos y forma de trabajar.',
+  },
+  {
+    icon: 'fa-solid fa-arrow-right-arrow-left',
+    title: 'Pasa a un humano',
+    body: 'Cuando hay interés real, deriva la conversación a WhatsApp con el contexto ya recogido.',
+  },
 ];
 
-const barHeights = [32, 48, 44, 62, 50, 72, 58, 80, 66, 88, 74, 92];
-const months     = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-
-/* Donut segments: [cyan, purple] as percentages → strokeDasharray out of 176 (2πr) */
-const CIRCUMFERENCE = 2 * Math.PI * 28; // ≈ 175.93
-
-const features = [
-  { faIcon: 'fa-solid fa-gauge-high',  color: 'cyan',   title: 'Dashboards Ejecutivos',  desc: 'Tableros de control con métricas clave actualizadas en tiempo real.' },
-  { faIcon: 'fa-solid fa-bullseye',    color: 'purple', title: 'KPIs Estratégicos',       desc: 'Indicadores de rendimiento alineados a los objetivos del negocio.' },
-  { faIcon: 'fa-solid fa-table-cells', color: 'teal',   title: 'Análisis Financiero',     desc: 'Proyecciones, flujo de caja, márgenes y análisis de rentabilidad.' },
-  { faIcon: 'fa-solid fa-file-invoice',color: 'orange', title: 'Reportes Fiscales',       desc: 'Reportes regulatorios automatizados y cumplimiento tributario.' },
-  { faIcon: 'fa-solid fa-chart-simple',color: 'red',    title: 'Reportes de Producción',  desc: 'Eficiencia operativa, costos de producción y control de calidad.' },
-  { faIcon: 'fa-solid fa-truck',       color: 'teal',   title: 'Reportes Logísticos',     desc: 'Seguimiento de entregas, rutas y rendimiento de la cadena.' },
-];
-
-/* ── Animated KPI card ───────────────────────────────────────── */
-function KpiCard({ kpi, active }: { kpi: KpiDef; active: boolean }) {
-  const value = useCountUp({ end: kpi.end, decimals: kpi.decimals, active, duration: 1800 });
-
-  return (
-    <div className={styles.kpiCard}>
-      <span className={styles.kpiLabel}>{kpi.label}</span>
-      <span className={styles.kpiValue}>
-        {kpi.prefix}{kpi.decimals > 0 ? value.toFixed(kpi.decimals) : Math.round(value)}{kpi.suffix}
-      </span>
-      <span className={`${styles.kpiDelta} ${kpi.positive ? styles.positive : styles.negative}`}>
-        <i className={`fa-solid ${kpi.positive ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}`} aria-hidden="true" />
-        {kpi.delta}
-      </span>
-    </div>
-  );
-}
-
-/* ── Animated donut ──────────────────────────────────────────── */
-function DonutChart({ active }: { active: boolean }) {
-  const cyanPct  = useCountUp({ end: 55,  decimals: 0, active, duration: 1600 });
-  const purplePct= useCountUp({ end: 30,  decimals: 0, active, duration: 1600 });
-
-  const cyanDash   = (cyanPct   / 100) * CIRCUMFERENCE;
-  const purpleDash = (purplePct / 100) * CIRCUMFERENCE;
-  const cyanOffset   = 0;
-  const purpleOffset = -cyanDash;
-
-  return (
-    <div className={styles.donutCard}>
-      <div className={styles.donutHeader}>
-        <i className="fa-regular fa-clock" aria-hidden="true" />
-        <span>By Region</span>
-      </div>
-      <div className={styles.donutWrapper}>
-        <svg className={styles.donutSvg} viewBox="0 0 80 80" aria-hidden="true">
-          <defs>
-            <linearGradient id="gCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00f5ff" />
-              <stop offset="100%" stopColor="#0080ff" />
-            </linearGradient>
-            <linearGradient id="gPurple" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#7b2fff" />
-              <stop offset="100%" stopColor="#ff00aa" />
-            </linearGradient>
-          </defs>
-
-          {/* Track */}
-          <circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="10" />
-
-          {/* Cyan arc */}
-          <circle
-            cx="40" cy="40" r="28"
-            fill="none"
-            stroke="url(#gCyan)"
-            strokeWidth="10"
-            strokeDasharray={`${cyanDash} ${CIRCUMFERENCE}`}
-            strokeDashoffset={cyanOffset}
-            strokeLinecap="round"
-            transform="rotate(-90 40 40)"
-          />
-
-          {/* Purple arc */}
-          <circle
-            cx="40" cy="40" r="28"
-            fill="none"
-            stroke="url(#gPurple)"
-            strokeWidth="10"
-            strokeDasharray={`${purpleDash} ${CIRCUMFERENCE}`}
-            strokeDashoffset={purpleOffset}
-            strokeLinecap="round"
-            transform="rotate(-90 40 40)"
-          />
-        </svg>
-
-        <div className={styles.donutLegend}>
-          <span className={styles.legendItem}>
-            <span className={styles.legendDot} style={{ background: '#00f5ff' }} />
-            LATAM {Math.round(cyanPct)}%
-          </span>
-          <span className={styles.legendItem}>
-            <span className={styles.legendDot} style={{ background: '#7b2fff' }} />
-            USA {Math.round(purplePct)}%
-          </span>
-          <span className={styles.legendItem}>
-            <span className={styles.legendDot} style={{ background: 'rgba(255,255,255,0.2)' }} />
-            EU 15%
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── Main section ────────────────────────────────────────────── */
 export function Intelligence() {
-  const { ref, inView } = useInView(0.2);
-
   return (
-    <section id="inteligencia" className={styles.section} aria-label="Reportería e Inteligencia de Negocios">
-      <div className={styles.bgGlow} aria-hidden />
+    <section id="inteligencia" className={styles.section} aria-label="SynQ Intelligence">
+      <div className={styles.glow} aria-hidden />
+
       <Container>
-        <SectionTitle
-          tag="Business Intelligence"
-          title={<>Reportería e <span className="gradient-text">Inteligencia</span> de Negocios</>}
-          subtitle="Dashboards ejecutivos, KPIs en tiempo real y análisis predictivo conectados directamente a tus sistemas empresariales."
-        />
-
-        {/* ── Dashboard card ── */}
-        <div className={styles.dashCard} ref={ref}>
-
-          <div className={styles.cardHeader}>
-            <div className={styles.cardHeaderLeft}>
-              <span className={styles.liveIndicator} aria-hidden />
-              <span className={styles.cardTitle}>Dashboard Ejecutivo</span>
-              <span className={styles.realtime}>· Real-time</span>
-            </div>
-            <div className={styles.previewBtn}>
-              <i className="fa-solid fa-chart-line" aria-hidden="true" />
-              Preview
-            </div>
-          </div>
-
-          {/* KPIs */}
-          <div className={styles.kpiRow}>
-            {kpis.map((k) => <KpiCard key={k.label} kpi={k} active={inView} />)}
-          </div>
-
-          {/* Charts */}
-          <div className={styles.chartRow}>
-            <div className={styles.barChartCard}>
-              <div className={styles.barChartHeader}>
-                <span className={styles.barChartTitle}>Sales Trend</span>
-                <span className={styles.monthlyBadge}>Monthly</span>
-              </div>
-              <div className={styles.barChart}>
-                {barHeights.map((h, i) => (
-                  <div key={i} className={styles.barCol}>
-                    <div
-                      className={styles.bar}
-                      style={{
-                        height: inView ? `${h}%` : '0%',
-                        transitionDelay: `${i * 0.07}s`,
-                      }}
-                    />
-                    {(i === 0 || i === 5 || i === 11) && (
-                      <span className={styles.barLabel}>{months[i]}</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.rightCol}>
-              <DonutChart active={inView} />
-
-              <div className={styles.aiCard}>
-                <div className={styles.aiHeader}>
-                  <span className={styles.aiIcon}>◈</span>
-                  <span className={styles.aiTitle}>IA Predictiva Activa</span>
-                </div>
-                <div className={styles.aiMetrics}>
-                  <div className={styles.aiMetric}>
-                    <span className={styles.aiMetricLabel}>Q4 Projection</span>
-                    <span className={styles.aiMetricValue}>+18.5%</span>
-                  </div>
-                  <div className={styles.aiMetric}>
-                    <span className={styles.aiMetricLabel}>Confidence</span>
-                    <span className={styles.aiMetricValue}>94%</span>
-                  </div>
-                </div>
-                <div className={styles.confidenceBar}>
-                  <div
-                    className={styles.confidenceFill}
-                    style={{ width: inView ? '94%' : '0%' }}
-                  />
-                </div>
-              </div>
-            </div>
+        <div className={styles.head}>
+          <span className={styles.chip}>
+            <img src={BRAND.isotipo} alt="" className={styles.chipIcon} />
+          </span>
+          <div className={styles.headText}>
+            <p className={styles.kicker}>SynQ Intelligence · 01</p>
+            <h2 className={styles.title}>
+              Así conversa <span className="gradient-text">un chatbot de SynQ</span>.
+            </h2>
           </div>
         </div>
 
-        {/* ── Feature cards ── */}
-        <div className={styles.featureGrid}>
-          {features.map((f, i) => (
-            <div
-              key={f.title}
-              className={`${styles.featureCard} ${styles[f.color]}`}
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              <div className={`${styles.featureIconWrapper} ${styles[`icon_${f.color}`]}`}>
-                <i className={f.faIcon} aria-hidden="true" />
-              </div>
-              <h3 className={styles.featureTitle}>{f.title}</h3>
-              <p className={styles.featureDesc}>{f.desc}</p>
-            </div>
-          ))}
+        <div className={styles.layout}>
+          {/* Columna de texto */}
+          <div className={styles.info}>
+            <p className={styles.lead}>
+              Atiende, entiende lo que le piden y lleva la conversación hasta agendar.
+              Trabaja con el contexto de tu negocio, día y noche, sin que nadie tenga
+              que estar pendiente del teléfono.
+            </p>
+
+            <ul className={styles.capabilities}>
+              {capabilities.map((c) => (
+                <li key={c.title} className={styles.capability}>
+                  <span className={styles.capabilityIcon}>
+                    <i className={c.icon} aria-hidden="true" />
+                  </span>
+                  <div>
+                    <h3 className={styles.capabilityTitle}>{c.title}</h3>
+                    <p className={styles.capabilityBody}>{c.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+          </div>
+
+          {/* Fuera de .info a proposito: asi .info ocupa solo la fila 1 de
+              la rejilla y el panel del chat puede estirarse justo hasta el
+              borde inferior de la ultima tarjeta. Visualmente la nota queda
+              donde estaba, porque cae en la fila 2 de la misma columna. */}
+          <p className={styles.note}>
+            <i className="fa-solid fa-comment-dots" aria-hidden="true" />
+            <span>
+              ¿Querés probarlo de verdad? Abrí <strong>Asesoría con IA</strong> en el
+              botón de abajo a la derecha y preguntale por tu operación.
+            </span>
+          </p>
+
+          {/* Demo animado de conversación */}
+          <div className={styles.chatCol}>
+            <ChatPanel />
+          </div>
         </div>
       </Container>
     </section>

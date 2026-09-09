@@ -11,9 +11,11 @@ export function Team() {
 
       <Container>
         <SectionTitle
-          tag="Nuestro Equipo"
-          title={<>Liderando la evolución de la <span className="gradient-text">Inteligencia</span></>}
-          subtitle="Un equipo visionario comprometido con la automatización y el flujo inteligente de datos en la era moderna."
+          tag="Equipo"
+          title="Las mentes detrás de SynQ"
+          subtitle="Un equipo que combina inteligencia artificial, ingeniería, seguridad y diseño para que cada entrega funcione de verdad."
+          align="left"
+          className={styles.head}
         />
 
         <div className={styles.grid}>

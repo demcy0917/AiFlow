@@ -1,0 +1,371 @@
+/* Sobre el lienzo base: alterna con Servicios, que va en banda. */
+.section {
+  position: relative;
+  z-index: 5;
+  padding: var(--section-padding-y) 0;
+}
+
+/* ── Encabezado ─────────────────────────────────────────────── */
+
+.head {
+  margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-5);
+}
+
+.kickerLine {
+  width: 46px;
+  height: 2px;
+  flex: none;
+  border-radius: var(--radius-full);
+  background: var(--gradient-cyan-blue);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-section);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-title);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  text-wrap: pretty;
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+  max-width: 620px;
+}
+
+/* ── Los cuatro pasos ───────────────────────────────────────────
+   Columnas explícitas: son cuatro pasos numerados y su orden es el
+   contenido. Con auto-fit podrían repartirse 3 + 1 y la secuencia
+   dejaría de leerse como una línea de tiempo. */
+
+.steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
+  /* Carril reservado arriba para los círculos numerados. Es padding y
+     no margen para que la línea, que se ancla al borde de .steps, caiga
+     dentro y pueda centrarse en ese carril. */
+  padding-top: var(--marker-lane);
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+
+  --marker-size: 34px;
+  --marker-lane: calc(var(--marker-size) + var(--space-5));
+}
+
+/* La línea que une los pasos. Va en la lista y no en las tarjetas
+   porque cruza los huecos de la rejilla; el degradado recorre los
+   cuatro acentos en el mismo orden que los círculos. */
+.steps::before {
+  content: '';
+  position: absolute;
+  /* Centro del carril: ahi coincide con el centro de los circulos. */
+  top: calc(var(--marker-lane) / 2);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-cyan) 12%,
+    var(--color-purple) 38%,
+    var(--color-magenta) 62%,
+    var(--color-orange) 88%,
+    transparent
+  );
+  opacity: 0.4;
+}
+
+.step {
+  position: relative;
+  min-width: 0;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--gradient-card);
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+
+.step:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* Círculo numerado: se sube al carril de .steps, por encima del borde
+   superior de la tarjeta, y tapa la línea con su propio fondo para que
+   no se le vea pasar por detrás del número. */
+.marker {
+  position: absolute;
+  /* Sube el circulo hasta el centro del carril. El 1px extra descuenta
+     el borde de la tarjeta, que es desde donde cuenta este top. */
+  top: calc(var(--marker-lane) / -2 - var(--marker-size) / 2 - 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--marker-size);
+  height: var(--marker-size);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--accent);
+  background: var(--color-bg-primary);
+  box-shadow: 0 0 14px var(--accent-glow);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+/* La tarjeta no se mueve sola: al elevarse en hover arrastra su
+   círculo, así que hay que devolverlo a la línea. */
+.step:hover .marker {
+  transform: translateX(-50%) translateY(3px);
+}
+
+/* ── Ilustración ────────────────────────────────────────────────
+   aspect-ratio fija el hueco antes de que la imagen cargue: sin él
+   las cuatro tarjetas darían un salto de alto al descargarse. */
+
+.media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+}
+
+.mediaImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.step:hover .mediaImg {
+  transform: scale(1.04);
+}
+
+/* Velo del acento sobre la foto: iguala cuatro ilustraciones que no
+   comparten exposición y las amarra al color de su paso. */
+.media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 45%, var(--color-bg-primary) 100%),
+    linear-gradient(0deg, var(--accent-dim), var(--accent-dim));
+  opacity: 0.55;
+}
+
+.stepIcon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: var(--font-size-md);
+}
+
+.stepRule {
+  display: block;
+  width: 34px;
+  height: 2px;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--accent);
+}
+
+.stepTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: var(--space-3);
+  text-wrap: pretty;
+}
+
+.stepBody {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+}
+
+/* ── Separador ──────────────────────────────────────────────── */
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.dividerText {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  text-align: center;
+}
+
+/* ── Cifras ─────────────────────────────────────────────────────
+   Una sola tarjeta con cuatro columnas: las cifras son un bloque de
+   resultados, no cuatro afirmaciones sueltas. Los separadores son
+   bordes de las columnas, así nunca sobran ni faltan al reflujo. */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: var(--space-6) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--gradient-card);
+}
+
+.metric {
+  min-width: 0;
+  padding: var(--space-2) var(--space-6);
+}
+
+.metric + .metric {
+  border-left: 1px solid var(--color-border);
+}
+
+.metricTop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.metricIcon {
+  flex: none;
+  font-size: var(--font-size-xl);
+  color: var(--accent);
+}
+
+/* El número toma el degradado de marca, no el acento: así las cuatro
+   cifras se leen como un conjunto y el acento queda en el icono. */
+.metricValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 3.6vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: var(--gradient-metric);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.metricLabel {
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+  color: var(--color-text-tertiary);
+}
+
+/* ── Acentos ────────────────────────────────────────────────── */
+
+.cyan    { --accent: var(--color-cyan);    --accent-dim: var(--color-cyan-dim);    --accent-glow: var(--color-cyan-glow); }
+.blue    { --accent: var(--color-blue);    --accent-dim: var(--color-blue-dim);    --accent-glow: var(--color-blue-glow); }
+.purple  { --accent: var(--color-purple);  --accent-dim: var(--color-purple-dim);  --accent-glow: var(--color-purple-glow); }
+.magenta { --accent: var(--color-magenta); --accent-dim: var(--color-magenta-dim); --accent-glow: var(--color-magenta-glow); }
+.teal    { --accent: var(--color-teal);    --accent-dim: var(--color-teal-dim);    --accent-glow: var(--color-teal-glow); }
+.orange  { --accent: var(--color-orange);  --accent-dim: var(--color-orange-dim);  --accent-glow: var(--color-orange-glow); }
+.green   { --accent: var(--color-green);   --accent-dim: var(--color-green-dim);   --accent-glow: var(--color-green-glow); }
+
+/* ── Responsive ─────────────────────────────────────────────────
+   En cuanto los pasos se parten en varias filas la línea deja de
+   describir la secuencia (sólo cruzaría la primera fila), así que
+   desaparece y los círculos quedan como numeración de cada tarjeta.
+   El row-gap crece para dejarles sitio sobre la fila siguiente. */
+
+@media (max-width: 1024px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: calc(var(--marker-lane) + var(--space-2));
+  }
+
+  .steps::before {
+    display: none;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-6);
+  }
+
+  /* Con dos columnas el separador vertical sólo debe ir entre pares:
+     el de la 3.ª celda abre fila y no separa nada. */
+  .metric:nth-child(odd) {
+    border-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .steps,
+  .metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .metric + .metric {
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-6);
+  }
+
+  .divider {
+    gap: var(--space-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step,
+  .mediaImg,
+  .marker {
+    transition: none;
+  }
+
+  .step:hover {
+    transform: none;
+  }
+
+  .step:hover .marker {
+    transform: translateX(-50%);
+  }
+
+  .step:hover .mediaImg {
+    transform: none;
+  }
+}

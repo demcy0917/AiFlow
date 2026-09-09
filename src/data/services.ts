@@ -1,40 +1,51 @@
 import type { Service } from '../types';
 
+/* ═══════════════════════════════════════════════════════════════
+   SERVICIOS — LO QUE CONSTRUIMOS
+   ───────────────────────────────────────────────────────────────
+   Cinco tarjetas con fondo a sangre. El orden importa: las dos
+   primeras ocupan la fila ancha y las tres restantes la fila de
+   abajo, así que mover un elemento cambia la composición.
+
+   Los textos son deliberadamente cortos: van sobre una foto, y ahí
+   un párrafo largo compite con la imagen y se vuelve ilegible.
+   ═══════════════════════════════════════════════════════════════ */
+
 export const services: Service[] = [
   {
-    id: 'automatizaciones',
-    icon: '⚡',
-    title: 'Automatizaciones',
-    description:
-      'Elimina tareas repetitivas y optimiza tus flujos de trabajo con automatizaciones inteligentes que conectan todas tus herramientas.',
-    color: 'cyan',
-    features: ['Flujos sin código', 'Integración multi-plataforma', 'Reportes en tiempo real'],
-  },
-  {
-    id: 'chatbots',
-    icon: '🤖',
+    num: '01',
     title: 'Chatbots con IA',
-    description:
-      'Asistentes virtuales avanzados que atienden clientes 24/7, califican leads y cierran ventas de forma autónoma.',
-    color: 'blue',
-    features: ['Procesamiento de lenguaje natural', 'Multicanal (Web, WhatsApp, IG)', 'Aprendizaje continuo'],
+    body: 'Atiende, califica y responde en WhatsApp y en tu sitio web.',
+    image: '/servicios/synq-chatbots.webp',
+    accent: 'cyan',
   },
   {
-    id: 'sistemas',
-    icon: '🏗️',
-    title: 'Sistemas Empresariales',
-    description:
-      'Desarrollamos CRMs, ERPs y plataformas internas adaptadas exactamente a los procesos únicos de tu empresa.',
-    color: 'purple',
-    features: ['CRM y ERP a medida', 'Dashboards analíticos', 'Acceso en la nube'],
+    num: '02',
+    title: 'Software a la medida',
+    subtitle: 'Con IA integrada',
+    body: 'Aplicaciones diseñadas para tu operación, con IA donde aporta valor.',
+    image: '/servicios/synq-software.webp',
+    accent: 'purple',
   },
   {
-    id: 'software',
-    icon: '💡',
-    title: 'Software a la Medida',
-    description:
-      'Aplicaciones web y móviles diseñadas desde cero para resolver los desafíos específicos de tu negocio.',
-    color: 'magenta',
-    features: ['Apps web y móvil', 'Arquitectura escalable', 'Soporte continuo'],
+    num: '03',
+    title: 'Landing pages',
+    body: 'Páginas rápidas y claras que convierten visitas en conversaciones.',
+    image: '/servicios/synq-landing-pages.webp',
+    accent: 'orange',
+  },
+  {
+    num: '04',
+    title: 'Catálogos digitales',
+    body: 'Tus productos organizados, fáciles de editar y conectados a WhatsApp.',
+    image: '/servicios/synq-catalogos.webp',
+    accent: 'green',
+  },
+  {
+    num: '05',
+    title: 'Sistemas y automatización',
+    body: 'Conecta áreas y datos. Automatiza las tareas que consumen a tu equipo.',
+    image: '/servicios/synq-automatizacion.webp',
+    accent: 'blue',
   },
 ];
