@@ -43,6 +43,11 @@ export function ChatWidget() {
      parametro no se calcula ni se muestra nada. Es temporal. */
   const [medidas, setMedidas] = useState<string | null>(null);
 
+  /* Con el teclado abierto la zona visible puede quedar en ~313px, donde
+     cabecera, campo y aviso legal no dejan sitio a los mensajes. Bajo ese
+     umbral el panel se compacta. */
+  const [compacto, setCompacto] = useState(false);
+
   // Auto-scroll al último mensaje.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -101,6 +106,8 @@ export function ChatWidget() {
         raiz.style.removeProperty('--chat-top');
       }
 
+      setCompacto(vv.height < 420);
+
       if (new URLSearchParams(location.search).has('chatdebug')) {
         const alto = Math.round(
           document.querySelector('aside[role="dialog"]')?.getBoundingClientRect().height ?? 0
@@ -122,6 +129,7 @@ export function ChatWidget() {
       vv.removeEventListener('scroll', sincronizar);
       raiz.style.removeProperty('--chat-h');
       raiz.style.removeProperty('--chat-top');
+      setCompacto(false);
     };
   }, [isOpen]);
 
@@ -199,6 +207,7 @@ export function ChatWidget() {
         aria-modal="false"
         aria-label="Asesor virtual de SynQ"
         aria-hidden={!isOpen}
+        data-compacto={compacto ? 'si' : 'no'}
       >
         <header className={styles.header}>
           <div className={styles.headerInfo}>

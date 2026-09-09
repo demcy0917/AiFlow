@@ -494,3 +494,31 @@
     display: none;
   }
 }
+
+/* ── Modo compacto ───────────────────────────────────────────────
+   Con el teclado abierto, entre teclado, barra de sugerencias y barra
+   del navegador, la zona visible puede bajar a ~313px. Ahi la cabecera
+   (74) mas el campo (90) mas el aviso (55) dejan 94px para los mensajes
+   y el saludo se corta a media frase.
+
+   El componente marca data-compacto cuando quedan menos de 420px. El
+   aviso legal se oculta, la cabecera se estrecha y el avatar encoge: el
+   area de mensajes pasa de ~94 a ~190px, el doble. Nada de esto se
+   aplica con el teclado cerrado. */
+
+.panel[data-compacto='si'] .header {
+  padding: var(--space-2) var(--space-5);
+}
+
+.panel[data-compacto='si'] .avatar {
+  width: 30px;
+  height: 30px;
+}
+
+.panel[data-compacto='si'] .headerStatus {
+  display: none;
+}
+
+.panel[data-compacto='si'] .disclaimer {
+  display: none;
+}
