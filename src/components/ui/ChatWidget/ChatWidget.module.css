@@ -121,7 +121,7 @@
    de pantalla. 100dvh queda de reserva para cuando no hay visualViewport. */
 .panel {
   position: fixed;
-  top: 0;
+  top: var(--chat-top, 0px);
   right: 0;
   z-index: 1000;
 

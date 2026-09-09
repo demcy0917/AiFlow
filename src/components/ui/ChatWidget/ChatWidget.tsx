@@ -99,13 +99,15 @@ export function ChatWidget() {
       const brecha = window.innerHeight - vv.height;
 
       if (brecha > 60) {
-        /* Solo la altura. El offsetTop se probo en un telefono real y
-           sobraba: el navegador ya dibuja el panel pegado al borde
-           visible, asi que sumarlo dejaba un hueco del mismo tamano
-           abajo, por donde se veia la pagina de atras. */
+        /* Los dos hacen falta, comprobado en telefono. El position: fixed
+           se ancla al viewport de layout, y con el teclado abierto la
+           pagina queda desplazada (offsetTop 382 en la prueba): sin el
+           top el panel se va arriba, fuera de la pantalla. */
         raiz.style.setProperty('--chat-h', `${vv.height}px`);
+        raiz.style.setProperty('--chat-top', `${vv.offsetTop}px`);
       } else {
         raiz.style.removeProperty('--chat-h');
+        raiz.style.removeProperty('--chat-top');
       }
 
       setCompacto(vv.height < 420);
@@ -135,6 +137,7 @@ export function ChatWidget() {
       vv.removeEventListener('resize', sincronizar);
       vv.removeEventListener('scroll', sincronizar);
       raiz.style.removeProperty('--chat-h');
+      raiz.style.removeProperty('--chat-top');
       setCompacto(false);
     };
   }, [isOpen]);
