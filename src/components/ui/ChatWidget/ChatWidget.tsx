@@ -105,6 +105,18 @@ export function ChatWidget() {
         raiz.style.removeProperty('--chat-top');
       }
 
+      /* Ancho: el zoom al enfocar el campo estrecha el viewport visible y
+         el boton de enviar, que va pegado a la derecha, se sale de la
+         pantalla. Se compara aparte del alto porque el zoom puede pasar
+         sin teclado. El margen de 4px absorbe el redondeo. */
+      if (window.innerWidth - vv.width > 4) {
+        raiz.style.setProperty('--chat-w', `${vv.width}px`);
+        raiz.style.setProperty('--chat-left', `${vv.offsetLeft}px`);
+      } else {
+        raiz.style.removeProperty('--chat-w');
+        raiz.style.removeProperty('--chat-left');
+      }
+
       setCompacto(vv.height < 420);
     }
 
@@ -117,6 +129,8 @@ export function ChatWidget() {
       vv.removeEventListener('scroll', sincronizar);
       raiz.style.removeProperty('--chat-h');
       raiz.style.removeProperty('--chat-top');
+      raiz.style.removeProperty('--chat-w');
+      raiz.style.removeProperty('--chat-left');
       setCompacto(false);
     };
   }, [isOpen]);
