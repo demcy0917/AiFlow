@@ -113,9 +113,9 @@ export function ChatWidget() {
           document.querySelector('aside[role="dialog"]')?.getBoundingClientRect().height ?? 0
         );
         setMedidas(
-          `inner ${window.innerHeight} · vv ${Math.round(vv.height)} · off ${Math.round(
-            vv.offsetTop
-          )} · brecha ${Math.round(brecha)} · panel ${alto}`
+          `vv ${Math.round(vv.height)} · panel ${alto} · compacto ${
+            vv.height < 420 ? 'SI' : 'NO'
+          } · inner ${window.innerHeight} · off ${Math.round(vv.offsetTop)}`
         );
       }
     }
