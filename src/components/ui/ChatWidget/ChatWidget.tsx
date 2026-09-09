@@ -38,11 +38,6 @@ export function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  /* Lector de medidas para diagnosticar el panel en un telefono real,
-     donde no hay consola. Se activa con ?chatdebug=1 en la URL; sin ese
-     parametro no se calcula ni se muestra nada. Es temporal. */
-  const [medidas, setMedidas] = useState<string | null>(null);
-
   /* Con el teclado abierto la zona visible puede quedar en ~313px, donde
      cabecera, campo y aviso legal no dejan sitio a los mensajes. Bajo ese
      umbral el panel se compacta. */
@@ -111,22 +106,6 @@ export function ChatWidget() {
       }
 
       setCompacto(vv.height < 420);
-
-      if (new URLSearchParams(location.search).has('chatdebug')) {
-        const alto = Math.round(
-          document.querySelector('aside[role="dialog"]')?.getBoundingClientRect().height ?? 0
-        );
-        const caja = document
-          .querySelector('aside[role="dialog"]')
-          ?.getBoundingClientRect();
-        setMedidas(
-          `vv ${Math.round(vv.height)} panel ${alto} top ${Math.round(
-            caja?.top ?? 0
-          )} bot ${Math.round(caja?.bottom ?? 0)} comp ${
-            vv.height < 420 ? 'SI' : 'NO'
-          } off ${Math.round(vv.offsetTop)}`
-        );
-      }
     }
 
     sincronizar();
@@ -309,21 +288,6 @@ export function ChatWidget() {
           </button>
         </form>
 
-        {medidas && (
-          <p
-            style={{
-              flexShrink: 0,
-              margin: 0,
-              padding: '2px 8px',
-              fontSize: '11px',
-              textAlign: 'center',
-              color: '#22d3ee',
-              background: '#000',
-            }}
-          >
-            {medidas}
-          </p>
-        )}
 
         <p className={styles.disclaimer}>
           Respuestas generadas con IA. Para una propuesta formal,{' '}
